@@ -1,0 +1,76 @@
+<form>
+    <h2 mat-dialog-title>Edit Player
+        <span style="float:right;">
+            <button mat-button [disabled]="!formIsValid()" (click)="doAction()">{{action}}</button>&nbsp;
+            <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+        </span>
+    </h2>
+
+    <div>
+        <mat-form-field>
+            <input matInput placeholder="Name" [(ngModel)]="player.Name" required="true" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select placeholder="Country" name="Country" [(ngModel)]="player.CountryId" required="true" [ngModelOptions]="{standalone: true}">
+                <mat-option></mat-option>
+                <mat-option [value]="country.Id" *ngFor="let country of countries">{{ country.Name }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div>  
+        <mat-form-field>
+            <mat-select placeholder="Handed" name="Handed" [(ngModel)]="player.Handed" [ngModelOptions]="{standalone: true}">
+                <mat-option></mat-option>
+                <mat-option value="L">Left</mat-option>
+                <mat-option value="R">Right</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Home town" name="HomeTown" [(ngModel)]="player.HomeTown" required="true" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+    </div>
+
+    <div>  
+        <mat-form-field style="width:180px !important;">
+            <input matInput placeholder="Date of Birth" name="Dob" id="Dob" [matDatepicker]="picker" [(ngModel)]="player.Dob" [ngModelOptions]="{standalone: true}">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select placeholder="Gender" name="Gender" [(ngModel)]="player.Gender" required="true" [ngModelOptions]="{standalone: true}">
+                <mat-option></mat-option>
+                <mat-option value="F">Female</mat-option>
+                <mat-option value="M">Male</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div>  
+        <mat-form-field style="width:70px !important;">
+            <input matInput placeholder="Height feet" name="HeightFeet" [(ngModel)]="player.HeightFeet" type="number" min="4" max="8" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+
+        <mat-form-field style="width:70px !important;">
+            <input matInput placeholder="inches" name="HeightInches" [(ngModel)]="player.HeightInches" type="number" min="0" max="11" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+
+        <mat-form-field style="width:70px !important;">
+            <input matInput placeholder="Weight lbs" name="Weight" [(ngModel)]="player.Weight" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+
+        <mat-form-field style="width:70px !important;">
+            <mat-select placeholder="Turned Pro" name="TurnedPro" [(ngModel)]="player.TurnedPro" [ngModelOptions]="{standalone: true}">
+                <mat-option></mat-option>
+                <mat-option [value]="year" *ngFor="let year of turnedProYears">{{ year }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <img *ngIf="player.Photo != null" src="data:image/jpeg;base64,{{player.Photo}}"/>
+    <file-upload-dd (fileUploadedEvent)="receiveFileUploaded($event)" ></file-upload-dd>
+
+</form>

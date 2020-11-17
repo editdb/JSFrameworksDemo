@@ -1,0 +1,8 @@
+.drop-zone {
+    border: 2px dashed #bbb;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+    font: 20pt bold 'Vollkorn';
+    color: #bbb;
+}
