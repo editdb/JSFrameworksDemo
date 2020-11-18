@@ -53,9 +53,8 @@ namespace TennisAngular10
 
 
             app.UseCors(opts =>
-                opts.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
-
-            app.UseEndpoints(endpoints =>
+                opts.WithOrigins(new string[] { "http://localhost:4200", "http://localhost:8080" }).AllowAnyMethod().AllowAnyHeader());
+           app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
