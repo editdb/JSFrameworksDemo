@@ -1,29 +1,60 @@
 <template>
   <div>
-    <label for="selectGender">Competition </label>
-    <select id="selectGender" v-model="selectedGender" @change="refreshRankingsList">
-      <option v-for="gender in genders" :key="gender.id" :value="gender.id">{{gender.value}}</option>
-    </select>
-    &nbsp;&nbsp;
-    <label for="selectYear">Year </label>
-    <select id="selectYear" v-model="selectedYear" @change="refreshRankingsList">
-      <option v-for="year in years" :key="year" :value="year">{{year}}</option>
-    </select>
+    <h2>Tennis Player Rankings (Vue.js)</h2>
+    <div class="md-layout md-gutter">
+      <div class="md-layout-item smaller-width">
+        <md-field>
+          <label for="selectGender">Competition </label>
+          <md-select id="selectGender" v-model="selectedGender" @md-selected="refreshRankingsList" md-dense >
+            <md-option v-for="gender in genders" :key="gender.id" :value="gender.id">{{gender.value}}</md-option>
+          </md-select>
+        </md-field>
+      </div>  
+      <div class="md-layout-item smaller-width">  
+        <md-field>
+          <label for="selectYear">Year </label>
+          <md-select id="selectYear" v-model="selectedYear" @md-selected="refreshRankingsList" md-dense >
+            <md-option v-for="year in years" :key="year" :value="year">{{year}}</md-option>
+          </md-select>
+        </md-field>
+      </div>
+    </div>
 
+    <md-table v-model="rankingsList" md-card md-sort="Rank" md-sort-order="asc">
+      <md-table-row slot="md-table-row" slot-scope="{ item }">
+        <md-table-cell md-label="Rank" md-sort-by="Rank">{{ item.Rank }}</md-table-cell>
+        <md-table-cell md-label="Player's Name">{{ item.PlayerName }}</md-table-cell>
+        <md-table-cell md-label="Country" :title="item.CountryName"><img :src="item.CountryImageLink"></md-table-cell>
+        <md-table-cell md-label="Points">{{ item.Points }}</md-table-cell>
+        <md-table-cell md-label="Prize Money" md-sort-by="PrizeMoney">${{ item.PrizeMoney }}</md-table-cell>
+        <md-table-cell md-label="Actions">
+          <a href="#" @click="openPlayerEditDialog(item.PlayerId); $event.preventDefault();">Edit Player</a>
+        </md-table-cell>
+      </md-table-row>
+    </md-table>
+    <player-edit-dialog v-model="playerEditDialogOpen" :playerId="playerId"></player-edit-dialog>
+<!--
     <div v-for="ranking in rankingsList" :key="ranking.Id">
       -{{ranking.PlayerName}}
     </div>
+-->    
   </div>
 </template>
 
 <script>
 import DataMixin from "../mixins/data-mixin";
+import PlayerEditDialog from "./PlayerEditDialog";
 //import PlayerService from "../services/player-service";
+
+//import { MdField, MdSelect, MdOption } from 'vue-material/dist/components';
+
 
 export default {
   name: 'PlayerList',
-  props: {
+  components: {
+    PlayerEditDialog
   },
+  props: [],
   mixins: [DataMixin],
   data() {
     return {
@@ -32,13 +63,22 @@ export default {
       genders: [
         {id: 'M', value: 'Men\'s'},
         {id: 'F', value: 'Women\'s'}
-      ]
+      ],
+      playerEditDialogOpen: false,
+      playerId: 0
     }
   },
   methods: {
     refreshRankingsList() {
       this.getRankingsList(this.selectedYear, this.selectedGender);
-    }
+    },
+    openPlayerEditDialog(playerId) {
+      console.log("playerId=" + playerId);
+      this.playerId = playerId;
+      this.playerEditDialogOpen = false; // needed as need to trigger a change and sometimes value left at true
+      this.playerEditDialogOpen = true;
+    }    
+
   },
 
   beforeMount() {
@@ -46,15 +86,22 @@ export default {
     this.getYears().then(() => {
       this.selectedYear = this.years[1];
       this.getRankingsList(this.selectedYear, this.selectedGender);
-    });
-    
-    
+    });   
   }
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.smaller-width {
+  max-width: 25%;
+}
+
+.md-table-cell {
+  text-align: left;
+}
+
 h3 {
   margin: 40px 0 0;
 }
