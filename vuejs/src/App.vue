@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <vue-toastr ref="toast"></vue-toastr>
     <!-- img alt="Vue logo" src="./assets/logo.png" -->
     <PlayerList msg="Welcome to Your Vue.js App"/>
   </div>
@@ -7,12 +8,18 @@
 
 <script>
 import PlayerList from './components/PlayerList.vue'
+import VueToastr from "vue-toastr";
 
 export default {
   name: 'App',
   components: {
-    PlayerList
+    PlayerList,
+    "vue-toastr": VueToastr
+  },
+
+  mounted() {
   }
+
 }
 </script>
 
@@ -24,7 +31,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-  margin-left: 60px;
-  margin-right: 60px;
+  margin-left: 120px;
+  margin-right: 120px;
 }
 </style>

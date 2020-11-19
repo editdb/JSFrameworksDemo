@@ -87,6 +87,9 @@ export default {
       this.selectedYear = this.years[1];
       this.getRankingsList(this.selectedYear, this.selectedGender);
     });   
+  },
+
+  mounted() {
   }
 
 }
