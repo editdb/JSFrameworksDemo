@@ -29,10 +29,13 @@
         <md-table-cell md-label="Prize Money" md-sort-by="PrizeMoney">${{ item.PrizeMoney }}</md-table-cell>
         <md-table-cell md-label="Actions">
           <a href="#" @click="openPlayerEditDialog(item.PlayerId); $event.preventDefault();">Edit Player</a>
+          <div style="display: inline-block; width: 15px;"> </div> 
+          <a href="#" @click="openRankingEditDialog(item.Id); $event.preventDefault();">Edit Ranking</a>
         </md-table-cell>
       </md-table-row>
     </md-table>
     <player-edit-dialog v-model="playerEditDialogOpen" :playerId="playerId"></player-edit-dialog>
+    <ranking-edit-dialog v-model="rankingEditDialogOpen" :rankingId="rankingId"></ranking-edit-dialog>
 <!--
     <div v-for="ranking in rankingsList" :key="ranking.Id">
       -{{ranking.PlayerName}}
@@ -44,6 +47,7 @@
 <script>
 import DataMixin from "../mixins/data-mixin";
 import PlayerEditDialog from "./PlayerEditDialog";
+import RankingEditDialog from "./RankingEditDialog";
 //import PlayerService from "../services/player-service";
 
 //import { MdField, MdSelect, MdOption } from 'vue-material/dist/components';
@@ -52,7 +56,8 @@ import PlayerEditDialog from "./PlayerEditDialog";
 export default {
   name: 'PlayerList',
   components: {
-    PlayerEditDialog
+    PlayerEditDialog,
+    RankingEditDialog
   },
   props: [],
   mixins: [DataMixin],
@@ -65,7 +70,9 @@ export default {
         {id: 'F', value: 'Women\'s'}
       ],
       playerEditDialogOpen: false,
-      playerId: 0
+      playerId: 0,
+      rankingEditDialogOpen: false,
+      rankingId: 0
     }
   },
   methods: {
@@ -77,6 +84,12 @@ export default {
       this.playerId = playerId;
       this.playerEditDialogOpen = false; // needed as need to trigger a change and sometimes value left at true
       this.playerEditDialogOpen = true;
+    },
+    openRankingEditDialog(rankingId) {
+      console.log("rankingId=" + rankingId);
+      this.rankingId = rankingId;
+      this.rankingEditDialogOpen = false; // needed as need to trigger a change and sometimes value left at true
+      this.rankingEditDialogOpen = true;
     }    
 
   },

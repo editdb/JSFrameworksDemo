@@ -1,7 +1,8 @@
 <template>
   <md-dialog :md-active.sync="value" :md-close-on-esc="false" :md-click-outside-to-close="false"
     @md-opened="open">
-    <div>
+  <md-dialog-content>
+    <div style="padding-bottom: 20px;">
       <div style="display:inline-block; font-size: 1.5em; margin-top: 0.5em;">
       Edit Player
       </div>
@@ -72,21 +73,21 @@
       <div class="md-layout-item quarter-width">
         <md-field>
           <label>Height feet</label>
-          <md-input placeholder="Height feet" v-model="player.HeightFeet" type="number" min="4" max="8" size="5" md-dense />
+          <md-input placeholder="Height feet" v-model.number="player.HeightFeet" type="number" min="4" max="8" size="5" md-dense />
         </md-field>
       </div>  
 
       <div class="md-layout-item quarter-width">
         <md-field>
           <label>inches</label>
-          <md-input placeholder="inches" v-model="player.HeightInches" type="number" min="0" max="11" size="5" md-dense />
+          <md-input placeholder="inches" v-model.number="player.HeightInches" type="number" min="0" max="11" size="5" md-dense />
         </md-field>
       </div>  
 
       <div class="md-layout-item quarter-width">
         <md-field>
           <label>Weight lbs</label>
-          <md-input placeholder="Weight lbs" v-model="player.Weight" type="number" size="5" md-dense />
+          <md-input placeholder="Weight lbs" v-model.number="player.Weight" type="number" size="5" md-dense />
         </md-field>
       </div>  
 
@@ -102,17 +103,22 @@
     </div>
 
     <img v-if="player.Photo != null" :src="'data:image/jpeg;base64,' + player.Photo" 
-       width="300"/>
+       height="300"/>
 
+    <file-upload-dd v-on:fileReceived="fileReceived"></file-upload-dd>
+    </md-dialog-content>
   </md-dialog>
 </template>
 
 <script>
 import DataMixin from "../mixins/data-mixin";
+import FileUploadDD from "./FileUploadDD";
+
 
 export default {
   name: 'PlayerEditDialog',
   components: {
+    'file-upload-dd': FileUploadDD
   },
   props: {
       value: {
@@ -147,13 +153,17 @@ export default {
           this.$emit("input", !this.value);
         },
         err => {
-          this.$toastr.e(err.response.data);
+          this.$toastr.e(this.formatError(err.response.data));
         }
       )
     },
     open() {
       console.log("open(), playerId=" + this.playerId);
       this.getPlayer(this.playerId);
+    },
+    fileReceived(evt) {
+      console.log("fileReceived()");
+      this.player.Photo = evt;
     }
       
   },
@@ -170,10 +180,15 @@ export default {
 .md-dialog /deep/ .md-dialog-container {
   transform: none;
   width: 500px;
-  height: 550px;
-  padding-top: 23px;
+  height: 600px;
+  padding-top: 0px;
   padding-left: 20px;
   padding-right: 20px;
+}
+
+.md-dialog-content {
+  padding-top: 0px; 
+  margin-top: -10px;
 }
 
 .md-button {

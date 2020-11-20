@@ -33,12 +33,24 @@ namespace TennisAngular10.Controllers
         {
             var player = await _context.Player.FindAsync(id);
 
-            if (player == null)
-            {
+            if (player == null) {
                 return NotFound();
             }
 
             return player;
+        }
+
+        // GET: api/Players/5
+        [HttpGet("/api/PlayerName/{id}")]
+        public async Task<ActionResult<String>> GetPlayerName(long id)
+        {
+            var player = await _context.Player.FindAsync(id);
+
+            if (player == null) {
+                return NotFound();
+            }
+
+            return player.Name;
         }
 
         // PUT: api/Players/5
