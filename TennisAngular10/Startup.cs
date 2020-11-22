@@ -53,7 +53,12 @@ namespace TennisAngular10
 
 
             app.UseCors(opts =>
-                opts.WithOrigins(new string[] { "http://localhost:4200", "http://localhost:8080" }).AllowAnyMethod().AllowAnyHeader());
+                opts.WithOrigins(new string[] { 
+                    "http://localhost:4200",        // Angular dev
+                    "http://192.168.99.100:4200",   // Angular Docker
+                    "http://localhost:8080",        // Vue dev
+                    "http://192.168.99.100:8080"    // Vue Docker
+                }).AllowAnyMethod().AllowAnyHeader());
            app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

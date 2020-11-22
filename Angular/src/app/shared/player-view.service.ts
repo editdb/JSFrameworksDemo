@@ -5,7 +5,8 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class PlayerViewService {
-  readonly rootUrl = "http://localhost:53315/api";
+  //readonly rootUrl = "http://localhost:53315/api";    // Debug .NET webapi
+  readonly rootUrl = "http://192.168.99.100:53316/api";    // Docker .NET webapi
 
   constructor(private http : HttpClient) { 
 

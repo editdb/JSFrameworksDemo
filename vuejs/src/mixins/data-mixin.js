@@ -1,5 +1,6 @@
 import axios from "axios"
-let rootUrl = "http://localhost:53315/api";
+//let rootUrl = "http://localhost:53315/api";    // Debug .NET webapi
+let rootUrl = "http://192.168.99.100:53316/api";    // Docker .NET webapi
 var DataMixin = {
     props: {
     },
