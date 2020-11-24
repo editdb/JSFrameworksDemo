@@ -14,8 +14,8 @@ interface IdValue {
   templateUrl: './ranking-list.component.html',
   styles: [
     'table {      width: 100%;    }',
-    '::ng-deep .mat-form-field-wrapper { padding-top: 0px; padding-bottom: 0px; }',
-    '::ng-deep .mat-form-field-underline { bottom: 0px;}'
+    '::ng-deep .mat-form-field-wrapper { padding-top: 0px; padding-bottom: 5px; }',
+    '::ng-deep .mat-form-field-underline { bottom: 5px;}'
   ]
 })
 export class RankingListComponent implements OnInit {

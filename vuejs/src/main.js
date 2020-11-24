@@ -23,7 +23,7 @@ Vue.use(VueToastr, {
 });
 
 const router = new VueRouter({
-  mode: 'history',    // prevents # in url
+  //mode: 'history',    // prevents # in url
   routes: [
     { path: '/rankingList', component: RankingList },
     { path: '/playerList', component: PlayerList },

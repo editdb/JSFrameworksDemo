@@ -92,6 +92,7 @@ export default {
   methods: {
     close() {
       console.log("close()");
+      this.clearForm();
       this.$emit("input", !this.value);
     },
     update() {
@@ -99,6 +100,7 @@ export default {
       this.updateRanking(this.rankingId, this.ranking).then(
         res => {
           res;
+          this.clearForm();
           this.$toastr.s("Record updated");
           this.$parent.refreshList();
           this.$emit("input", !this.value);
@@ -107,6 +109,17 @@ export default {
           this.$toastr.e(this.formatError(err.response.data));
         }
       )
+    },
+    clearForm() {
+      console.log("clearForm()");
+      this.playerName = "";
+      this.ranking.Year = null;
+      this.ranking.Points = null;
+      this.ranking.PrizeMoney = null;
+      this.ranking.SinglesTitles = null;
+      this.ranking.DoublesTitles = null;
+      this.ranking.SinglesWin = null;
+      this.ranking.SinglesLoss = null;
     },
     open() {
       console.log("open(), rankingId=" + this.rankingId);

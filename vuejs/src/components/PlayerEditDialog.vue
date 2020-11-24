@@ -104,7 +104,7 @@
     </div>
 
     <img v-if="player.Photo != null" :src="'data:image/jpeg;base64,' + player.Photo" 
-       height="300"/>
+       style="height: 170px;"/>
 
     <file-upload-dd v-on:fileReceived="fileReceived"></file-upload-dd>
     </md-dialog-content>
@@ -141,6 +141,7 @@ export default {
   methods: {
     close() {
       console.log("close()");
+      this.clearForm();
       this.$emit("input", !this.value);
     },
     update() {
@@ -149,6 +150,7 @@ export default {
         res => {
           //this.toastr.info("Record updated");
           res;
+          this.clearForm();
           this.$toastr.s("Record updated");
           this.$parent.refreshList();
           this.$emit("input", !this.value);
@@ -157,6 +159,21 @@ export default {
           this.$toastr.e(this.formatError(err.response.data));
         }
       )
+    },
+    clearForm() {
+      console.log("clearForm()");
+      this.player.Name = "";
+      this.player.CountryId = 0;
+      this.player.Handed = "";
+      this.player.HomeTown = "";
+      this.player.DobDMY = null;
+      this.player.Dob = null;
+      this.player.Gender = "";
+      this.player.HeightFeet = "";
+      this.player.HeightInches = "";
+      this.player.Weight  = "";
+      this.player.TurnedPro = "";
+      this.player.Photo = "";
     },
     open() {
       console.log("open(), playerId=" + this.playerId);
@@ -181,7 +198,7 @@ export default {
 .md-dialog /deep/ .md-dialog-container {
   transform: none;
   width: 500px;
-  height: 600px;
+  height: 620px;
   padding-top: 0px;
   padding-left: 20px;
   padding-right: 20px;
