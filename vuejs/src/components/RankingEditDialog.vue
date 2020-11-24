@@ -100,7 +100,7 @@ export default {
         res => {
           res;
           this.$toastr.s("Record updated");
-          this.$parent.refreshRankingsList();
+          this.$parent.refreshList();
           this.$emit("input", !this.value);
         },
         err => {
@@ -138,7 +138,6 @@ export default {
 }
 
 .md-dialog-content {
-  padding-top: 0px; 
   margin-top: -10px;
 }
 

@@ -2,6 +2,7 @@
   <md-dialog :md-active.sync="value" :md-close-on-esc="false" :md-click-outside-to-close="false"
     @md-opened="open">
   <md-dialog-content>
+    
     <div style="padding-bottom: 20px;">
       <div style="display:inline-block; font-size: 1.5em; margin-top: 0.5em;">
       Edit Player
@@ -149,7 +150,7 @@ export default {
           //this.toastr.info("Record updated");
           res;
           this.$toastr.s("Record updated");
-          this.$parent.refreshRankingsList();
+          this.$parent.refreshList();
           this.$emit("input", !this.value);
         },
         err => {

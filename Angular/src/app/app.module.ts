@@ -11,6 +11,7 @@ import { RoutingModule } from '../routing/routing.module';
 import { MaterialModule } from '../material/material.module';
 import { LayoutComponent } from './layout/layout.component';
 
+import { RankingListComponent } from './ranking-list/ranking-list.component';
 import { PlayerListComponent } from './player-list/player-list.component';
 import { HeaderComponent } from './navigation/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list.component';
@@ -26,6 +27,7 @@ import { ToastrModule } from 'ngx-toastr';
   declarations: [
     AppComponent,
     LayoutComponent,
+    RankingListComponent,
     PlayerListComponent,
     HeaderComponent,
     SidenavListComponent,

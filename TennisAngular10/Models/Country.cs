@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace TennisAngular10.Models
 {
@@ -15,6 +16,7 @@ namespace TennisAngular10.Models
         public string Name { get; set; }
         public string ImageLink { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Player> Player { get; set; }
     }
 }

@@ -30,7 +30,14 @@ namespace TennisAngular10
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers()
-                .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null); // this line stops the camel-casing of property/column names;
+                .AddJsonOptions(options => {
+                //.AddNewtonsoftJson(options => { 
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                    options.JsonSerializerOptions.WriteIndented = true;
+                //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                //    options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+                //     options.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+                }); // this line stops the camel-casing of property/column names;
 
             services.AddDbContext<TennisDBContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));

@@ -16,12 +16,16 @@ export class PlayerViewService {
     return this.http.get(`${this.rootUrl}/Players/${Id}`);
   }
 
-  getCountries() {
-    return this.http.get(`${this.rootUrl}/Countries`);
+  getPlayersCountryList() {
+    return this.http.get(`${this.rootUrl}/PlayersWithCountry`);
   }
 
   updatePlayer(Id, player) {
     return this.http.put(`${this.rootUrl}/Players/${Id}`, player);
+  }
+
+  getCountries() {
+    return this.http.get(`${this.rootUrl}/Countries`);
   }
 
   getRankingList(year, gender) {

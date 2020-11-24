@@ -3,9 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from '../app/app.component';
 import { PlayerListComponent } from '../app/player-list/player-list.component';
+import { RankingListComponent } from '../app/ranking-list/ranking-list.component';
 
 const routes: Routes = [
   { path: 'home', component: PlayerListComponent},
+  { path: 'playerList', component: PlayerListComponent},
+  { path: 'rankingList', component: RankingListComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 

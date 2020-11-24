@@ -22,9 +22,26 @@ namespace TennisAngular10.Controllers
 
         // GET: api/Players
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Player>>> GetPlayer()
+        public async Task<ActionResult<IEnumerable<Player>>> GetPlayers()
         {
-            return await _context.Player.ToListAsync();
+            return await _context.Player.OrderBy(p => p.Name).ToListAsync();
+        }
+
+        // GET: api/PlayersWithCountry
+        [HttpGet]
+        [Route("/api/PlayersWithCountry")]
+        public async Task<ActionResult<IEnumerable<Object>>> GetPlayersWithCountry()
+        {
+            return await _context.Player.Include(p => p.Country).OrderBy(p => p.Name).ToListAsync();
+/*
+            return await (
+            from p in _context.Player
+            join c in _context.Country on p.Country.Id equals c.Id
+            orderby p.Name            
+            select p
+            )
+            .ToListAsync();
+*/
         }
 
         // GET: api/Players/5

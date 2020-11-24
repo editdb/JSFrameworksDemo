@@ -1,123 +1,73 @@
 <template>
   <div>
-    <h2>Tennis Player Rankings (Vue.js)</h2>
     <div class="md-layout md-gutter">
-      <div class="md-layout-item smaller-width">
-        <md-field>
-          <label for="selectGender">Competition </label>
-          <md-select id="selectGender" v-model="selectedGender" @md-selected="refreshRankingsList" md-dense >
-            <md-option v-for="gender in genders" :key="gender.id" :value="gender.id">{{gender.value}}</md-option>
-          </md-select>
-        </md-field>
-      </div>  
-      <div class="md-layout-item smaller-width">  
-        <md-field>
-          <label for="selectYear">Year </label>
-          <md-select id="selectYear" v-model="selectedYear" @md-selected="refreshRankingsList" md-dense >
-            <md-option v-for="year in years" :key="year" :value="year">{{year}}</md-option>
-          </md-select>
-        </md-field>
+      <div style="display:inline-block; font-size: 1.5em; margin-left: 1.0em; margin-top: 1.0em;">
+      Players
       </div>
     </div>
 
-    <md-table v-model="rankingsList" md-card md-sort="Rank" md-sort-order="asc">
+    <md-table v-model="playersList" md-card md-sort="Name" md-sort-order="asc">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <md-table-cell md-label="Rank" md-sort-by="Rank">{{ item.Rank }}</md-table-cell>
-        <md-table-cell md-label="Player's Name">{{ item.PlayerName }}</md-table-cell>
-        <md-table-cell md-label="Country" :title="item.CountryName"><img :src="item.CountryImageLink"></md-table-cell>
-        <md-table-cell md-label="Points">{{ item.Points }}</md-table-cell>
-        <md-table-cell md-label="Prize Money" md-sort-by="PrizeMoney">${{ item.PrizeMoney }}</md-table-cell>
-        <md-table-cell md-label="Actions">
-          <a href="#" @click="openPlayerEditDialog(item.PlayerId); $event.preventDefault();">Edit Player</a>
-          <div style="display: inline-block; width: 15px;"> </div> 
-          <a href="#" @click="openRankingEditDialog(item.Id); $event.preventDefault();">Edit Ranking</a>
+        <md-table-cell md-label="Name" class="left" md-sort-by="Name">{{ item.Name }}</md-table-cell>
+        <md-table-cell md-label="Gender">{{ item.Gender }}</md-table-cell>
+        <md-table-cell md-label="Handed">{{ item.Handed }}</md-table-cell>
+        <md-table-cell md-label="Date of birth" md-sort-by="Dob">{{ item.Dob.substring(8,10) }}/{{ item.Dob.substring(5,7) }}/{{item.Dob.substring(0,4) }}</md-table-cell>
+        <md-table-cell md-label="Country" :title="item.Country.Name"><img :src="item.Country.ImageLink"></md-table-cell>
+        <md-table-cell md-label="Home town" class="left">{{ item.HomeTown }}</md-table-cell>
+<!--        
+        <md-table-cell md-label="Height">{{ item.HeightFeet }}' {{ item.HeightInches}} "</md-table-cell>
+        <md-table-cell md-label="Weight">{{ item.Weight }} lbs</md-table-cell>
+-->        
+        <md-table-cell md-label="Actions" class="left">
+          <a href="#" @click="openPlayerEditDialog(item.Id); $event.preventDefault();">Edit Player</a>
         </md-table-cell>
       </md-table-row>
     </md-table>
     <player-edit-dialog v-model="playerEditDialogOpen" :playerId="playerId"></player-edit-dialog>
-    <ranking-edit-dialog v-model="rankingEditDialogOpen" :rankingId="rankingId"></ranking-edit-dialog>
-<!--
-    <div v-for="ranking in rankingsList" :key="ranking.Id">
-      -{{ranking.PlayerName}}
-    </div>
--->    
+
   </div>
 </template>
 
 <script>
 import DataMixin from "../mixins/data-mixin";
 import PlayerEditDialog from "./PlayerEditDialog";
-import RankingEditDialog from "./RankingEditDialog";
-//import PlayerService from "../services/player-service";
-
-//import { MdField, MdSelect, MdOption } from 'vue-material/dist/components';
-
 
 export default {
   name: 'PlayerList',
   components: {
-    PlayerEditDialog,
-    RankingEditDialog
+    PlayerEditDialog
   },
-  props: [],
+  props: {
+    msg: String
+  },
   mixins: [DataMixin],
   data() {
     return {
-      selectedGender: '',
-      selectedYear: '',
-      genders: [
-        {id: 'M', value: 'Men\'s'},
-        {id: 'F', value: 'Women\'s'}
-      ],
       playerEditDialogOpen: false,
       playerId: 0,
-      rankingEditDialogOpen: false,
-      rankingId: 0
     }
   },
   methods: {
-    refreshRankingsList() {
-      this.getRankingsList(this.selectedYear, this.selectedGender);
+    refreshList() {
+      this.getPlayersList();
     },
     openPlayerEditDialog(playerId) {
       console.log("playerId=" + playerId);
       this.playerId = playerId;
       this.playerEditDialogOpen = false; // needed as need to trigger a change and sometimes value left at true
       this.playerEditDialogOpen = true;
-    },
-    openRankingEditDialog(rankingId) {
-      console.log("rankingId=" + rankingId);
-      this.rankingId = rankingId;
-      this.rankingEditDialogOpen = false; // needed as need to trigger a change and sometimes value left at true
-      this.rankingEditDialogOpen = true;
-    }    
+    }
 
   },
 
   beforeMount() {
-    this.selectedGender = this.genders[0].id;
-    this.getYears().then(() => {
-      this.selectedYear = this.years[1];
-      this.getRankingsList(this.selectedYear, this.selectedGender);
-    });   
-  },
-
-  mounted() {
-  }
-
+    this.getPlayersList();
+  }  
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.smaller-width {
-  max-width: 25%;
-}
-
-.md-table-cell {
-  text-align: left;
-}
-
 h3 {
   margin: 40px 0 0;
 }
@@ -131,5 +81,10 @@ li {
 }
 a {
   color: #42b983;
+}
+</style>
+<style>
+.md-table-cell.left .md-table-cell-container {
+  text-align: left !important;
 }
 </style>

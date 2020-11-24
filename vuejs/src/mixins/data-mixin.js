@@ -10,6 +10,7 @@ var DataMixin = {
             ranking: {},
             years: [],
             countries: [],
+            playersList: [],
             player: {},
             playerName: "",
             turnedProYears: Array.from({length: 40}, (_, i) => i - 40 + new Date().getFullYear())
@@ -31,6 +32,11 @@ var DataMixin = {
         async updateRanking(id, ranking) {
             console.log(`update ranking for id ${id}`);
             await axios.put(`${rootUrl}/Rankings/${id}`, ranking);
+        },
+        async getPlayersList() {
+            console.log(`get players`);
+            let res = await axios.get(`${rootUrl}/PlayersWithCountry`);
+            this.$set(this, "playersList", res.data);
         },
         async getPlayer(id) {
             console.log(`get player for id ${id}`);
