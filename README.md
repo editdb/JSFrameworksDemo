@@ -1,1 +1,23 @@
-# JSFrameworkEdu
+# JSFrameworkEdu 
+## Vue.js and Angular Javascript frameworks
+Demonstration projects for Vue.js and Angular 10 with a Postgres database accessed via a Microsoft C# WebApi.
+
+## Run the four components in Docker
+```
+docker-compose up -d
+```
+
+### Access Vue.js application using Docker
+```
+url: http://localhost:8080
+```
+
+### Access Angular application using Docker
+```
+url: http://localhost:4200
+```
+
+### Note for Docker Toolbox users where Docker uses 192.168.99.100 rather than localhost
+```
+In the .env file (and the vuejs/.env file if running outside of Docker), change localhost to 192.168.99.100
+```
