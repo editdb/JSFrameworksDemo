@@ -17,7 +17,15 @@ url: http://localhost:8080
 url: http://localhost:4200
 ```
 
-### Note for Docker Toolbox users where Docker uses 192.168.99.100 rather than localhost
+### Note for Docker Toolbox users where Docker uses 192.168.99.100 rather than localhost running all in Docker
 ```
-In the .env file (and the vuejs/.env file if running outside of Docker), change localhost to 192.168.99.100
+In the .env file, change localhost to 192.168.99.100
+```
+### Note for Docker Toolbox users where Docker uses 192.168.99.100 rather than localhost running Vue via npm run serve
+```
+In the vuejs/.env file, change localhost to 192.168.99.100
+```
+### Note for Docker Toolbox users where Docker uses 192.168.99.100 rather than localhost running Angular via ng serve --o
+```
+In the Angular/src/environments/environment.ts file, change localhost to 192.168.99.100 in the property named webapiUrl
 ```

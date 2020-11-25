@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import Configuration from "../shared/Configuration.js";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlayerViewService {
-  readonly rootUrl = "http://localhost:53315/api";    // Debug .NET webapi
-  //readonly rootUrl = "http://192.168.99.100:53316/api";    // Docker .NET webapi
-
+  readonly rootUrl = Configuration.value("webapiUrl");
+  
   constructor(private http : HttpClient) { 
 
   }

@@ -6,7 +6,7 @@ import { PlayerListComponent } from '../app/player-list/player-list.component';
 import { RankingListComponent } from '../app/ranking-list/ranking-list.component';
 
 const routes: Routes = [
-  { path: 'home', component: PlayerListComponent},
+  { path: 'home', component: RankingListComponent},
   { path: 'playerList', component: PlayerListComponent},
   { path: 'rankingList', component: RankingListComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' }

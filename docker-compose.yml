@@ -41,6 +41,8 @@ services:
       context: ./Angular
     ports:
       - "4200:80"
+    environment:
+      VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
     depends_on:
       - tennisplayers-dotnet-core-webapi
   
