@@ -31,6 +31,8 @@ services:
       context: ./vuejs
     ports:
       - "8080:80"
+    environment:
+      VUE_APP_URL_API: ${VUE_APP_URL_API}
     depends_on:
       - tennisplayers-dotnet-core-webapi
 

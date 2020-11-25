@@ -1,6 +1,6 @@
 import axios from "axios"
-//let rootUrl = "http://localhost:53315/api";    // Debug .NET webapi
-let rootUrl = "http://192.168.99.100:53316/api";    // Docker .NET webapi
+var rootUrl = isEmpty(process.env.VUE_APP_URL_API) ? "http://localhost:53316/api" : process.env.VUE_APP_URL_API
+
 var DataMixin = {
     props: {
     },
@@ -75,28 +75,31 @@ var DataMixin = {
             console.log(`get years`);
             let res = await axios.get(`${rootUrl}/Years`);
             this.$set(this, "years", res.data);
-       },
+        },
 
-       formatError(err) {   // pass in err.response.data
-       var errorText = "";
-       if (typeof err == 'string') {
-         errorText = err;
-       } else {
-         errorText = err.errors[Object.keys(err.errors)[0]];
-       }
-       var idx = errorText.indexOf("Exception: ");
-       if (idx > -1) {
-         errorText = errorText.substring(idx + "Exception: ".length);
-       }
-       idx = errorText.indexOf("\r\n   at ");
-       if (idx > -1) {
-         errorText = errorText.substring(0, idx);
-       }
- 
-       return errorText;
+        formatError(err) {   // pass in err.response.data
+            var errorText = "";
+            if (typeof err == 'string') {
+                errorText = err;
+            } else {
+                errorText = err.errors[Object.keys(err.errors)[0]];
+            }
+            var idx = errorText.indexOf("Exception: ");
+            if (idx > -1) {
+                errorText = errorText.substring(idx + "Exception: ".length);
+            }
+            idx = errorText.indexOf("\r\n   at ");
+            if (idx > -1) {
+                errorText = errorText.substring(0, idx);
+            }
+            return errorText;
+        }
      }      
 
-    }
   };
+
+  function isEmpty(str) {
+    return (!str || 0 === str.length);
+  }
 
   export default DataMixin;
