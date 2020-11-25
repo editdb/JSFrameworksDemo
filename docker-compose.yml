@@ -32,7 +32,7 @@ services:
     ports:
       - "8080:80"
     environment:
-      VUE_APP_URL_API: ${VUE_APP_URL_API}
+      VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
     depends_on:
       - tennisplayers-dotnet-core-webapi
 
