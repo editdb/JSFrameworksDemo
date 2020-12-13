@@ -21,6 +21,10 @@ export class PlayerViewService {
     return this.http.get(`${this.rootUrl}/PlayersWithCountry`);
   }
 
+  createPlayer(player) {
+    return this.http.post(`${this.rootUrl}/Players`, player);
+  }
+
   updatePlayer(Id, player) {
     return this.http.put(`${this.rootUrl}/Players/${Id}`, player);
   }

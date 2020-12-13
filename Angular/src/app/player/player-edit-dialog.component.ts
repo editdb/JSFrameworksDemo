@@ -105,7 +105,6 @@ export class PlayerEditDialogComponent implements OnInit {
   doAction() {
     this.playerViewService.updatePlayer(this.Id, this.player).subscribe(
       res => {
-//        this.countries = res;
         this.toastr.info("Record updated");
         this.playerEditDialog.close({event:this.action, data:this.Id});
       },
