@@ -1,0 +1,56 @@
+version: '3.1'
+
+services:
+  mongo-db:
+    image: mongo:3.6.21
+    #command: mongod --serviceExecutor adaptive
+    environment:
+      MONGO_INITDB_DATABASE: admin
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data_container:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    restart: on-failure:3
+
+  tennisplayers-mongo-dotnet-core-webapi:
+    build:
+      context: ./TennisMongoDB
+    environment:
+      - TennisDatabaseSettings:ConnectionString__mongodb://tennis_user:tennis_pass@mongo-db:27017/tennis_players;
+    ports:
+      - "53316:80"
+    depends_on:
+      - mongo-db
+    restart: on-failure:3
+
+  tennisplayers-vue:
+    build:
+      context: ./vuejs
+    ports:
+      - "8080:80"
+    environment:
+      VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
+    depends_on:
+      - tennisplayers-mongo-dotnet-core-webapi
+
+  tennisplayers-angular:
+    build:
+      context: ./Angular
+    ports:
+      - "4200:80"
+    environment:
+      VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
+    depends_on:
+      - tennisplayers-mongo-dotnet-core-webapi
+  
+
+volumes:
+  mongodb_data_container:    
+    driver: local
+    
+#networks:
+#  tennisplayers_network:
+#    external: true
