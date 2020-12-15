@@ -1,4 +1,5 @@
-use admin;
+conn = new Mongo();
+db = conn.getDB("admin");
 
 db.auth('root', 'rootpassword');
 

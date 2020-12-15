@@ -1,8 +1,9 @@
 version: '3.1'
 
 services:
-  mongo-db:
-    image: mongo:3.6.21
+  tennis-mongo-db:
+    build:
+      context: ./mongo-db
     #command: mongod --serviceExecutor adaptive
     environment:
       MONGO_INITDB_DATABASE: admin
@@ -11,22 +12,21 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongodb_data_container:/data/db
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - mongodb-data:/data/db
     restart: on-failure:3
 
-  tennisplayers-mongo-dotnet-core-webapi:
+  tennis-mongo-webapi-csharp:
     build:
-      context: ./TennisMongoDB
+      context: ./TennisMongoDBWebApiCSharp
     environment:
-      - TennisDatabaseSettings:ConnectionString__mongodb://tennis_user:tennis_pass@mongo-db:27017/tennis_players;
+      - TennisDatabaseSettings:ConnectionString__mongodb://tennis_user:tennis_pass@tennis-mongo-db:27017/tennis_players;
     ports:
       - "53316:80"
     depends_on:
-      - mongo-db
+      - tennis-mongo-db
     restart: on-failure:3
 
-  tennisplayers-vue:
+  tennis-vue:
     build:
       context: ./vuejs
     ports:
@@ -34,9 +34,9 @@ services:
     environment:
       VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
     depends_on:
-      - tennisplayers-mongo-dotnet-core-webapi
+      - tennis-mongo-webapi-csharp
 
-  tennisplayers-angular:
+  tennis-angular:
     build:
       context: ./Angular
     ports:
@@ -44,11 +44,11 @@ services:
     environment:
       VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
     depends_on:
-      - tennisplayers-mongo-dotnet-core-webapi
+      - tennis-mongo-webapi-csharp
   
 
 volumes:
-  mongodb_data_container:    
+  mongodb-data:    
     driver: local
     
 #networks:

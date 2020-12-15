@@ -5,16 +5,16 @@
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["TennisMongoDB.csproj", "TennisMongoDB/"]
-RUN dotnet restore "TennisMongoDB/TennisMongoDB.csproj"
-COPY . TennisMongoDB/.
-WORKDIR "/src/TennisMongoDB"
-RUN dotnet build "TennisMongoDB.csproj" -c Release -o /app/build
+COPY ["TennisMongoDBWebApiCSharp.csproj", "TennisMongoDBWebApiCSharp/"]
+RUN dotnet restore "TennisMongoDBWebApiCSharp/TennisMongoDBWebApiCSharp.csproj"
+COPY . TennisMongoDBWebApiCSharp/.
+WORKDIR "/src/TennisMongoDBWebApiCSharp"
+RUN dotnet build "TennisMongoDBWebApiCSharp.csproj" -c Release -o /app/build
 
 FROM build AS publish
 ENV ASPNETCORE_URLS=http://+:80  
 EXPOSE 80
-RUN dotnet publish "TennisMongoDB.csproj" -c Release -o /app/publish
+RUN dotnet publish "TennisMongoDBWebApiCSharp.csproj" -c Release -o /app/publish
 COPY ./docker-scripts/docker-startup.sh .
 COPY ./docker-scripts/wait-for-it.sh .
 ENTRYPOINT ["./docker-startup.sh"]

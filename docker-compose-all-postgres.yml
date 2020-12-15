@@ -1,7 +1,7 @@
 version: '3.1'
 
 services:
-  tennisplayers-postgres-db:
+  tennis-postgres-db:
     image: postgres:11.1
     ports:
       - "4001:5432"
@@ -16,17 +16,17 @@ services:
     build:
       context: ./TennisPostgresWebApiCSharp
     environment:
-      - ConnectionStrings:DefaultConnection__Server=tennisplayers-postgres-db;Port=5432;Database=postgres;User Id=postgres;Password=;
+      - ConnectionStrings:DefaultConnection__Server=tennis-postgres-db;Port=5432;Database=postgres;User Id=postgres;Password=;
       #- ASPNETCORE_URLS=https://+;http://+;
     ports:
       - "53316:80"
     depends_on:
-      - tennisplayers-postgres-db
+      - tennis-postgres-db
 #    networks:
 #      - tennisplayers_network
     restart: on-failure:3
 
-  tennisplayers-vue:
+  tennis-vue:
     build:
       context: ./vuejs
     ports:
@@ -36,7 +36,7 @@ services:
     depends_on:
       - tennis-postgres-webapi-csharp
 
-  tennisplayers-angular:
+  tennis-angular:
     build:
       context: ./Angular
     ports:
