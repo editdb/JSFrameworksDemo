@@ -4,7 +4,7 @@ Demonstration projects for Vue.js and Angular 10 with a Postgres [or MongoDB] da
 
 ## Run the four components in Docker
 ```
-docker-compose up -d
+docker-compose -f .\docker-compose-all-postgres.yml up -d
 ```
 
 ### Access Vue.js application using Docker
