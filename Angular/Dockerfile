@@ -27,4 +27,5 @@ COPY docker-scripts/default.conf /etc/nginx/conf.d/
 COPY --from=build /app/dist/Angular/. /usr/share/nginx/html
 
 COPY ./docker-scripts/entrypoint.sh /
+RUN ["chmod", "+x", "/entrypoint.sh"]
 CMD ["/entrypoint.sh"]

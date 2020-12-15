@@ -26,4 +26,5 @@ FROM nginx AS publish
 COPY --from=build /app/dist/. /usr/share/nginx/html
 
 COPY ./docker-scripts/entrypoint.sh /
+RUN ["chmod", "+x", "/entrypoint.sh"]
 CMD ["/entrypoint.sh"]
