@@ -20,7 +20,6 @@
 **/npm-debug.log
 **/obj
 **/e2e
-**/src
 **/secrets.dev.yaml
 **/values.dev.yaml
 LICENSE
