@@ -16,7 +16,7 @@ services:
     build:
       context: ./TennisPostgresWebApiCSharp
     environment:
-      - ConnectionStrings__DefaultConnection="Server=tennis-postgres-db;Port=5432;Database=postgres;User Id=postgres;Password=";
+      - ConnectionStrings__DefaultConnection=Server=tennis-postgres-db;Port=5432;Database=postgres;User Id=postgres;Password=;
       #- ASPNETCORE_URLS=https://+;http://+;
     ports:
       - "53316:80"

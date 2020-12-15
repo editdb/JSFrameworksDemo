@@ -19,7 +19,7 @@ services:
     build:
       context: ./TennisMongoDBWebApiCSharp
     environment:
-      - TennisDatabaseSettings__ConnectionString="mongodb://tennis_user:tennis_pass@tennis-mongo-db:27017/tennis_players;"
+      - TennisDatabaseSettings__ConnectionString=mongodb://tennis_user:tennis_pass@tennis-mongo-db:27017/tennis_players;
     ports:
       - "53316:80"
     depends_on:
