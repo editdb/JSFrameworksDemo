@@ -17,5 +17,6 @@ EXPOSE 80
 RUN dotnet publish "TennisMongoDBWebApiCSharp.csproj" -c Release -o /app/publish
 COPY ./docker-scripts/docker-startup.sh .
 COPY ./docker-scripts/wait-for-it.sh .
+RUN ["chmod", "+x", "./docker-startup.sh"]
 ENTRYPOINT ["./docker-startup.sh"]
 #ENTRYPOINT ["tail", "-f", "/dev/null"]
