@@ -1,8 +1,8 @@
-# JSFrameworkEdu 
-## Vue.js and Angular Javascript frameworks
-Demonstration projects for Vue.js and Angular 10 with a Postgres [or MongoDB] database accessed via a Microsoft C# WebApi.
+# JS Framework Demo 
+## Vue.js and Angular Javascript frameworks via a .Net Core REST API service backed by Postgres or Mongo Database.
+Demonstration projects for Vue.js and Angular 10 with a Postgres or MongoDB database accessed via a Microsoft C# WebApi.
 
-## Run the four components in Docker
+## Run the four components in Docker (Postgres DB)
 ```
 docker-compose -f .\docker-compose-all-postgres.yml up -d
 ```
@@ -16,6 +16,8 @@ url: http://localhost:8080
 ```
 url: http://localhost:4200
 ```
+
+### Note for Docker Toolbox users where Docker uses 192.168.99.100, replace "localhost" accordingly above.
 
 ### MongoDB can be used instead of Postgres, coupled with a C# WebApi serving up the MongoDB database. This configuration can be started in Docker by 
 ```
