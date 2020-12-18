@@ -1,0 +1,51 @@
+Players
+
+<table mat-table [dataSource]="playerList" class="mat-elevation-z8">
+  <ng-container matColumnDef="Id">
+    <th mat-header-cell *matHeaderCellDef> Id </th>
+    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Gender">
+    <th mat-header-cell *matHeaderCellDef> Gender </th>
+    <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Handed">
+    <th mat-header-cell *matHeaderCellDef> Handed </th>
+    <td mat-cell *matCellDef="let element"> {{element.handed}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Dob">
+    <th mat-header-cell *matHeaderCellDef> Date of birth </th>
+    <td mat-cell *matCellDef="let element"> {{formatDateFromJson(element.dob)}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Country">
+    <th mat-header-cell *matHeaderCellDef> Country </th>
+    <td mat-cell *matCellDef="let element" title="{{element.country.name}}"><img src="{{element.country.imageLink}}"></td>
+  </ng-container>
+
+  <ng-container matColumnDef="HomeTown">
+    <th mat-header-cell *matHeaderCellDef> Home town </th>
+    <td mat-cell *matCellDef="let element"> {{element.homeTown}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Action">
+    <th mat-header-cell *matHeaderCellDef> Action </th>
+    <td mat-cell *matCellDef="let element" class="action-link"> 
+      <a href="#" (click)="openPlayerEditDialog('Update', element); $event.preventDefault();">Edit Player</a> 
+    </td>
+  </ng-container>
+
+
+  <tr mat-header-row *matHeaderRowDef="playerListColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: playerListColumns;"></tr>
+
+</table>
+  
