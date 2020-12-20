@@ -54,12 +54,27 @@ export class PlayerViewService {
     `);
   }
 
-  createPlayer(player) {
-    return this.http.post(`${this.rootUrl}/Players`, player);
+  updatePlayer(id, record) {
+    return this.postMutation(`
+      updatePlayer(input: {
+        id: ${id},
+        name: "${record.name}",
+        countryId: ${record.countryId}, 
+        handed: "${record.handed}",
+        dob: "${this.formatDate(record.dob)}",
+        homeTown: "${record.homeTown}",
+        heightFeet: ${record.heightFeet},
+        heightInches: ${record.heightInches},
+        weight: ${record.weight},
+        photo: [${this.base64ToIntArray(record.photo)}],
+        gender: "${record.gender}",
+        turnedPro: ${record.turnedPro}
+      })
+    `);
   }
 
-  updatePlayer(Id, player) {
-    return this.http.put(`${this.rootUrl}/Players/${Id}`, player);
+  base64ToIntArray(b64:string) {
+    return Uint8Array.from(atob(b64), c => c.charCodeAt(0));
   }
 
   getCountries() {
@@ -76,6 +91,7 @@ export class PlayerViewService {
       rankings(year:${year}, gender:"${gender}") {
         id,
         rank,
+        year,
         player {
           id,
           name,
@@ -91,11 +107,45 @@ export class PlayerViewService {
   }
 
   getRanking(Id) {
-    return this.http.get(`${this.rootUrl}/Rankings/${Id}`);
+    return this.postQuery(`
+      ranking (id: ${Id}) {
+        id,
+        playerId,
+        year,
+        movement,
+        rank,
+        player {
+          id,
+          name,
+          country {
+            name,
+            imageLink
+          }
+        },
+        points,
+        prizeMoney,
+        singlesTitles,
+        doublesTitles,
+        singlesWin,
+        singlesLoss
+      }
+    `)
   }
 
-  updateRanking(Id, ranking) {
-    return this.http.put(`${this.rootUrl}/Rankings/${Id}`, ranking);
+  updateRanking(id, record) {
+    return this.postMutation(`
+      updateRanking(input: {
+        id: ${id},
+        movement: ${record.movement},
+        rank: ${record.rank},
+        points: ${record.points},
+        prizeMoney: ${record.prizeMoney},
+        singlesTitles: ${record.singlesTitles},
+        doublesTitles: ${record.doublesTitles},
+        singlesWin: ${record.singlesWin},
+        singlesLoss: ${record.singlesLoss},
+      })
+    `);
   }
 
   getYears() {
@@ -106,15 +156,32 @@ export class PlayerViewService {
     `);
   }
 
+  formatDate(d:string) {
+    if (d == null) {
+      return "";
+    }
+    return d.substr(0,4) + "-" + d.substr(5,2) + "-" + d.substr(8,2);
+  }
+
   postQuery(s:string) {
-    return this.http.post(`${this.rootUrl}`, this.squash(s), this.httpOptions);
+    var cmd:string = this.squash(s);
+    cmd = `{
+      "query":"{ ${cmd} }"
+    }`;
+    return this.http.post(`${this.rootUrl}`, cmd, this.httpOptions);
+  }
+
+  postMutation(s:string) {
+    var cmd:string = this.squash(s);
+    cmd = `{
+      "query": "mutation { ${cmd} {id} }"
+    }`;
+    return this.http.post(`${this.rootUrl}`, cmd, this.httpOptions);
   }
 
   squash(s:string) {
-    s = s.replace(/(?:\r\n|\r|\n)/g, '').replace(/\"/g, '\\"');
-    return `{
-      "query":"{ ${s} }"
-    }`.replace(/\s\s+/g, ' ');
+    s = s.replace(/(?:\r\n|\r|\n)/g, '').replace(/\"/g, '\\"').replace(/\s\s+/g, ' ');
+    return s;
   }
 
 }

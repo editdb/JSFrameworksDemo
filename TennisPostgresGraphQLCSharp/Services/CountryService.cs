@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-
+using TennisPostgresGraphQLCSharp.Exceptions;
 using TennisPostgresGraphQLCSharp.Models;
 
 namespace TennisPostgresGraphQLCSharp.Services
@@ -28,5 +28,44 @@ namespace TennisPostgresGraphQLCSharp.Services
             return record;
         }
 
+        public async Task<Country> Add(Country country)
+        {
+            var result = await _context.Country.AddAsync(country);
+
+            await _context.SaveChangesAsync();
+
+            return result.Entity;
+        }
+
+        public async Task<Country> Update(long id, Country country)
+        {
+            country.Id = id;
+
+            if (string.IsNullOrWhiteSpace(country.Code)) {
+                throw new DataValidationError("Code", "The Code must be supplied");
+            }
+
+            if (country.Name.Trim().Length <= 4) {
+                throw new DataValidationError("Name", "The Name does not have enough letters");
+            }
+
+            _context.Entry(country).State = EntityState.Modified;
+
+            try {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException) {
+                if (_context.Country.Find(id) == null) {
+                    throw new DataValidationError("Id", "Updated country not found");
+                }
+                else {
+                    throw;
+                }
+            }
+
+            _context.Entry(country).State = EntityState.Detached;
+            return _context.Country.Find(id);
+        }
     }
+
 }

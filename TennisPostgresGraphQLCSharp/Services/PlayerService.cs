@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-
+using TennisPostgresGraphQLCSharp.Exceptions;
+using TennisPostgresGraphQLCSharp.InputTypes;
 using TennisPostgresGraphQLCSharp.Models;
 
 namespace TennisPostgresGraphQLCSharp.Services
@@ -52,6 +53,56 @@ namespace TennisPostgresGraphQLCSharp.Services
             var record = await _context.Player.Where(p => p.CountryId == id).ToListAsync();
 
             return record;
+        }
+
+
+
+        public async Task<Player> Add(Player player)
+        {
+            var result = await _context.Player.AddAsync(player);
+
+            await _context.SaveChangesAsync();
+
+            return result.Entity;
+        }
+
+        public async Task<Player> Update(long id, PlayerInput input)
+        {
+
+            if (input.Name.HasValue && input.Name.Value.Trim().Length <= 4) {
+                throw new DataValidationError("Name", "The Name does not have enough letters");
+            }
+
+            Player record = _context.Player.Find(id);
+            if (input.Id.HasValue)            record.Id =             input.Id.Value;
+            if (input.Name.HasValue)          record.Name =           input.Name.Value;
+            if (input.CountryId.HasValue)     record.CountryId =      input.CountryId.Value;
+            if (input.Handed.HasValue)        record.Handed =         input.Handed.Value;
+            if (input.Dob.HasValue)           record.Dob =            input.Dob.Value;
+            if (input.HomeTown.HasValue)      record.HomeTown =       input.HomeTown.Value;
+            if (input.HeightFeet.HasValue)    record.HeightFeet =     input.HeightFeet.Value;
+            if (input.HeightInches.HasValue)  record.HeightInches =   input.HeightInches.Value;
+            if (input.Weight.HasValue)        record.Weight =         input.Weight.Value.Value;
+            if (input.Photo.HasValue)         record.Photo =          input.Photo.Value;
+            if (input.Gender.HasValue)        record.Gender =         input.Gender.Value;
+            if (input.TurnedPro.HasValue)     record.TurnedPro =      input.TurnedPro.Value;
+
+            _context.Entry(record).State = EntityState.Modified;
+
+            try {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException) {
+                if (_context.Player.Find(id) == null) {
+                    throw new DataValidationError("Id", "Updated player not found");
+                }
+                else {
+                    throw;
+                }
+            }
+
+            _context.Entry(record).State = EntityState.Detached;
+            return _context.Player.Find(id);
         }
 
     }

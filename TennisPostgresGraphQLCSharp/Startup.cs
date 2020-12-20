@@ -19,6 +19,7 @@ using TennisPostgresGraphQLCSharp.Models;
 using Microsoft.EntityFrameworkCore;
 using TennisPostgresGraphQLCSharp.Services;
 using Microsoft.AspNetCore.Mvc;
+using TennisPostgresGraphQLCSharp.InputTypes;
 
 namespace TennisPostgresGraphQLCSharp
 {
@@ -48,9 +49,13 @@ namespace TennisPostgresGraphQLCSharp
             services.AddScoped<PlayerService>();
             services.AddScoped<RankingService>();
             services.AddScoped<TennisQuery>();
+            services.AddScoped<TennisMutation>();
             services.AddScoped<CountryType>();
             services.AddScoped<PlayerType>();
             services.AddScoped<RankingType>();
+            services.AddScoped<CountryInputType>();
+            services.AddScoped<PlayerInputType>();
+            services.AddScoped<RankingInputType>();
             services.AddScoped<IntNullableType>();
             services.AddScoped<ISchema, GraphQLTennisSchema>();
 

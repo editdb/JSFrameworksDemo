@@ -13,7 +13,7 @@ namespace TennisPostgresGraphQLCSharp.Queries
         public TennisQuery(CountryService countryService, PlayerService playerService, RankingService rankingService)
         {
             Name = "TennisQuery";
-            Description = "A database of tennis players, their countries and their rankings throughout recent years";
+            Description = "Queries of database of tennis players, their countries and their rankings throughout recent years";
 
             Field<ListGraphType<CountryType>>(
                 name: "countries", 

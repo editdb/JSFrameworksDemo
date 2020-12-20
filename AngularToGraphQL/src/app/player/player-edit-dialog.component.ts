@@ -124,7 +124,7 @@ export class PlayerEditDialogComponent implements OnInit {
   }
 
   receiveFileUploaded($event) {
-    this.player['Photo'] = $event;
+    this.player['photo'] = $event;
   }
 
   formIsValid() {

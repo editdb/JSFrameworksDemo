@@ -16,6 +16,7 @@ namespace TennisPostgresGraphQLCSharp.Queries
             //Query = resolver.Resolve<CountryQuery>();
 
             Query = services.GetService<TennisQuery>();
+            Mutation = services.GetService<TennisMutation>();
         }
     }
 }

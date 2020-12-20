@@ -6,35 +6,35 @@
         </span>
     </h2>
 
-    <h3>{{local_data.PlayerName}} {{local_data.Year}}</h3>
+    <h3>{{local_data.player.name}} {{local_data.year}}</h3>
 
     <div>
         <mat-form-field>
-            <input matInput type="number" placeholder="Points" [(ngModel)]="ranking.Points" required="true" [ngModelOptions]="{standalone: true}">
+            <input matInput type="number" placeholder="Points" [(ngModel)]="ranking.points" required="true" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput type="number" placeholder="PrizeMoney" [(ngModel)]="ranking.PrizeMoney" required="true" [ngModelOptions]="{standalone: true}">
+            <input matInput type="number" placeholder="PrizeMoney" [(ngModel)]="ranking.prizeMoney" required="true" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
     </div>
 
     <div>
         <mat-form-field>
-            <input matInput type="number" placeholder="SinglesTitles" [(ngModel)]="ranking.SinglesTitles" required="true" [ngModelOptions]="{standalone: true}">
+            <input matInput type="number" placeholder="SinglesTitles" [(ngModel)]="ranking.singlesTitles" required="true" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput type="number" placeholder="DoublesTitles" [(ngModel)]="ranking.DoublesTitles" required="true" [ngModelOptions]="{standalone: true}">
+            <input matInput type="number" placeholder="DoublesTitles" [(ngModel)]="ranking.doublesTitles" required="true" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
     </div>
 
     <div>
         <mat-form-field>
-            <input matInput type="number" placeholder="SinglesWin" [(ngModel)]="ranking.SinglesWin" required="true" [ngModelOptions]="{standalone: true}">
+            <input matInput type="number" placeholder="SinglesWin" [(ngModel)]="ranking.singlesWin" required="true" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput type="number" placeholder="SinglesLoss" [(ngModel)]="ranking.SinglesLoss" required="true" [ngModelOptions]="{standalone: true}">
+            <input matInput type="number" placeholder="SinglesLoss" [(ngModel)]="ranking.singlesLoss" required="true" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
     </div>
 

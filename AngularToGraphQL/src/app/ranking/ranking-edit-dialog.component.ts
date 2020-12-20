@@ -19,7 +19,7 @@ export interface RankingData {
 export class RankingEditDialogComponent implements OnInit {
 
   action : string;
-  Id : number;
+  id : number;
   ranking : any = new Ranking();
   local_data : any;
 
@@ -32,14 +32,14 @@ export class RankingEditDialogComponent implements OnInit {
     private toastr : ToastrService) {
     //console.log(data);
     this.local_data = {...data};
-    this.Id = this.local_data.Id;
+    this.id = this.local_data.id;
     this.action = this.local_data.action;
   }
 
   ngOnInit(): void {
-    this.playerViewService.getRanking(this.Id).subscribe(
+    this.playerViewService.getRanking(this.id).subscribe(
       res => {
-        this.ranking = res as Ranking;
+        this.ranking = res["ranking"] as Ranking;
       },
       err => {
         console.log(err);
@@ -55,10 +55,10 @@ export class RankingEditDialogComponent implements OnInit {
   }
 
   doAction() {
-    this.playerViewService.updateRanking(this.Id, this.ranking).subscribe(
+    this.playerViewService.updateRanking(this.id, this.ranking).subscribe(
       res => {
         this.toastr.info("Record updated");
-        this.rankingEditDialog.close({event:this.action, data:this.Id});
+        this.rankingEditDialog.close({event:this.action, data:this.id});
       },
       err => {
         console.log(err);
