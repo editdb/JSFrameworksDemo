@@ -1,0 +1,46 @@
+version: '3.1'
+
+services:
+  tennis-postgres-db:
+    image: postgres:11.1
+    ports:
+      - "4001:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+#    networks:
+#      - tennisplayers_network
+    restart: on-failure:3
+
+  tennis-postgres-graphql-csharp:
+    ##image: tennisplayers-java
+    build:
+      context: ./TennisPostgresGraphQLCSharp
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=tennis-postgres-db;Port=5432;Database=postgres;User Id=postgres;Password=;
+      #- ASPNETCORE_URLS=https://+;http://+;
+    ports:
+      - "52264:80"
+    depends_on:
+      - tennis-postgres-db
+#    networks:
+#      - tennisplayers_network
+    restart: on-failure:3
+
+  tennis-angular-graphql:
+    build:
+      context: ./AngularToGraphQL
+    ports:
+      - "4200:80"
+    environment:
+      VUE_APP_GRAPHQL_URL: ${VUE_APP_GRAPHQL_URL}
+    depends_on:
+      - tennis-postgres-graphql-csharp
+  
+
+volumes:
+  postgres-data:
+    driver: local
+    
+#networks:
+#  tennisplayers_network:
+#    external: true
