@@ -69,7 +69,7 @@ namespace TennisPostgresGraphQLCSharp.Queries
             Field<PlayerType>(
                 name: "updatePlayer",
                 arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<RankingInputType>> { Name = "input" }
+                    new QueryArgument<NonNullGraphType<PlayerInputType>> { Name = "input" }
                 ),
                 resolve: context =>
                 {
