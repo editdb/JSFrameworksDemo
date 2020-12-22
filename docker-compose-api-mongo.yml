@@ -14,6 +14,19 @@ services:
       - mongodb-data:/data/db
     restart: on-failure:3
 
+  tennis-mongo-webapi-csharp:
+    build:
+      context: ./TennisMongoDBWebApiCSharp
+    environment:
+      - TennisDatabaseSettings__ConnectionString=mongodb://tennis_user:tennis_pass@tennis-mongo-db:27017/tennis_players
+    ports:
+      - "53316:80"
+    depends_on:
+      - tennis-mongo-db
+    restart: on-failure:3
+  
+
 volumes:
   mongodb-data:    
     driver: local
+    

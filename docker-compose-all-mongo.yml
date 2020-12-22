@@ -4,7 +4,6 @@ services:
   tennis-mongo-db:
     build:
       context: ./mongo-db
-    #command: mongod --serviceExecutor adaptive
     environment:
       MONGO_INITDB_DATABASE: admin
       MONGO_INITDB_ROOT_USERNAME: root

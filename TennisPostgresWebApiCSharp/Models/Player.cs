@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace TennisAngular10.Models
 {
@@ -24,6 +25,8 @@ namespace TennisAngular10.Models
         public int? TurnedPro { get; set; }
 
         public virtual Country Country { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<Ranking> Ranking { get; set; }
     }
 }

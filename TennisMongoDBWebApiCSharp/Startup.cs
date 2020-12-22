@@ -48,6 +48,9 @@ namespace TennisMongoDB
                     //    options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
                     //     options.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
                 }); // this line stops the camel-casing of property/column names;
+
+            // Inject an implementation of ISwaggerProvider with defaulted settings applied
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +86,8 @@ namespace TennisMongoDB
 */
             BsonTypeMapper.RegisterCustomTypeMapper(typeof(RankingsList), new RankingsListCustomMapper());
 
+            // Enable middleware to serve generated Swagger as a JSON endpoint
+            app.UseSwagger();
         }
     }
 }
