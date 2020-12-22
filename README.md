@@ -35,7 +35,7 @@ http://localhost:8080
 |**Angular** |The Angular 10 project|
 |**vuejs** |The Vue.js project|
 |**TennisPostgresWebApiCSharp** |The C# WebApi project which accesses a Postgres database|
-|
+
 
 ### Running Angular via WebApi to MongoDB
 
@@ -53,7 +53,7 @@ Access the Angular application using the following url http://localhost:4200
 |**Angular** |The Angular 10 project|
 |**vuejs** |The Vue.js project|
 |**TennisMongoDBWebApiCSharp** |The C# WebApi project which accesses a MongoDB database|
-|
+
 
 ---
 ### Running Angular via GraphQL to Postgres
@@ -69,7 +69,7 @@ The GraphiQL application, allowing GraphQL commands to be entered and the schema
 | -------- | -------- |
 |**AngularToGraphQL**| The Angular 10 project|
 |**TennisPostgresGraphQLCSharp**| The C# GraphQL server project which accesses a Postgres database|
-|
+
 
 
 ---
@@ -96,7 +96,7 @@ docker-compose -f ./<filename> down
 |docker-compose-api-postgres.yml|Postgres database, C# REST WebApi server|
 |docker-compose-api-mongo.yml|MongoDB database, C# REST WebApi server|
 |docker-compose-api-graphql.yml|Postgres database, C# GraphQL server|
-|
+
 
 
 ### If Docker runs on `192.168.99.100` 
