@@ -109,7 +109,7 @@ In addition, prior to running any *docker-compose* commands, replace localhost w
 
 
 
-If running Vue natively buy `npm run serve` then in the vuejs/.env file, change `localhost` to `192.168.99.100`
+If running Vue natively by `npm run serve` then in the vuejs/.env file, change `localhost` to `192.168.99.100`
 
 If running Angular natively by `ng serve --o` then in the Angular/src/environments/environment.ts file, change `localhost` to `192.168.99.100` in the property named webapiUrl
 
