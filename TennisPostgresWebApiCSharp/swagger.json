@@ -303,19 +303,25 @@
               "text/plain": {
                 "schema": {
                   "type": "array",
-                  "items": {}
+                  "items": {
+                    "$ref": "#/components/schemas/Player"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {}
+                  "items": {
+                    "$ref": "#/components/schemas/Player"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
                   "type": "array",
-                  "items": {}
+                  "items": {
+                    "$ref": "#/components/schemas/Player"
+                  }
                 }
               }
             }

@@ -1,0 +1,8 @@
+To generate a client project from swagger.json
+
+Download swagger-codegen-cli-3.0.23.jar from https://mvnrepository.com/artifact/io.swagger.codegen.v3/swagger-codegen-cli/3.0.23
+
+java -jar <path to swagger-codegen-cli-3.0.23.jar> generate -i <path to swagger.json> -l aspnetcore -o <output-folder>
+
+e.g.
+java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli-3.0.23.jar generate -i file:///C:/Nigel/AllSource/dotNET/TennisDemos/TennisPostgresWebApiCSharp/swagger.json -l aspnetcore -o C:\Nigel\AllSource\dotNET\TennisDemosClients\swagger-local-csharp-netcore
