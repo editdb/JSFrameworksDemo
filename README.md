@@ -12,6 +12,8 @@
 ---
 ### Endpoints can be demonstrated by following instructions \[[here](#Demonstrating-Endpoints)\].
 ---
+### Integration tests for the Postgres WebApi project are contained in the `TennisPostgresWebApiIntegTest` project. The tests run over a SQLite database using EF to automatically create the tables. The tests operate against the end-points made available by running up the C# WebApi `TennisPostgresWebApiCSharp` project. 
+---
 
 The database contains three tables (or collections in Mongo parlance). These tables describe tennis players, their rankings over the last few years, and the player's country.
 The UI lists the players and allows their attributes to be changed and a player image to be uploaded. It also list the players' rankings given a selected gender and year, and allows the ranking to be edited. If a player's points are amended such that their rank should be changed, then the player's rank is re-calculated and their position in the list changes.
