@@ -1,8 +1,22 @@
 To generate a client project from swagger.json
 
+
+For .net Framework
+==================
 Download swagger-codegen-cli-3.0.23.jar from https://mvnrepository.com/artifact/io.swagger.codegen.v3/swagger-codegen-cli/3.0.23
 
 java -jar <path to swagger-codegen-cli-3.0.23.jar> generate -i <path to swagger.json> -l aspnetcore -o <output-folder>
 
 e.g.
 java -jar modules/swagger-codegen-cli/target/swagger-codegen-cli-3.0.23.jar generate -i file:///C:/Nigel/AllSource/dotNET/TennisDemos/TennisPostgresWebApiCSharp/swagger.json -l aspnetcore -o C:\Nigel\AllSource\dotNET\TennisDemosClients\swagger-local-csharp-netcore
+
+For .net Core
+=============
+
+npm install @openapitools/openapi-generator-cli -g
+
+openapi-generator-cli generate -i C:\Nigel\AllSource\dotNET\TennisDemos\TennisPostgresWebApiCSharp\swagger.json -g csharp-netcore -o C:\Downloads\swagger-gen\openapi-netcore --additional-properties packageName=CoreApi.Client.Sdk
+
+might need to delete/rename openapi-generator-cli.ps1 if there's a message
+
+(n.b. Be careful about the "packageName=". Do NOT use "Api" as first element of the package name else Visual Studio gets confused and won't build the project)
