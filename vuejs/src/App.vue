@@ -5,7 +5,7 @@
       <md-button class="md-icon-button">
         <md-icon>more_vert</md-icon>
       </md-button>
-      <h2 class="md-title" style="flex: 1">Tennis Players (Vue.js)</h2>
+      <h2 class="md-title" style="flex: 1">Tennis Players (Vue.js to C# WebApi REST endpoint to Postgres)</h2>
       <router-link to = "/rankingList" class="router-link">Rankings</router-link>
       <router-link to = "/playerList" class="router-link">Players</router-link>
     </md-toolbar>

@@ -99,7 +99,7 @@ export default {
   beforeMount() {
     this.selectedGender = this.genders[0].id;
     this.getYears().then(() => {
-      this.selectedYear = this.years[1];
+      this.selectedYear = this.years[2];
       this.getRankingsList(this.selectedYear, this.selectedGender);
     });   
   },

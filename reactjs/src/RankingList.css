@@ -1,0 +1,8 @@
+.rankingsTitle {
+  display:inline-block; font-size: 1.5em; margin-left: 1.0em; margin-right: 1.0em; margin-top: 0.5em;
+}
+
+.formControlSelect {
+  width: 10em !important;
+  margin-right: 1.0em !important; 
+}

@@ -67,7 +67,9 @@ namespace TennisAngular10
                     "http://localhost:4200",        // Angular dev
                     "http://192.168.99.100:4200",   // Angular Docker
                     "http://localhost:8080",        // Vue dev
-                    "http://192.168.99.100:8080"    // Vue Docker
+                    "http://192.168.99.100:8080",   // Vue Docker
+                    "http://localhost:3000",        // React dev
+                    "http://192.168.99.100:3000"    // React Docker
                 }).AllowAnyMethod().AllowAnyHeader());
            app.UseEndpoints(endpoints =>
             {

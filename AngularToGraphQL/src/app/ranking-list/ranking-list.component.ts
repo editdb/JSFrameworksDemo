@@ -42,7 +42,7 @@ export class RankingListComponent implements OnInit {
     this.playerViewService.getYears().subscribe(
       res => {
         this.years = res["years"];
-        this.selectedYear = this.years[1].value; 
+        this.selectedYear = this.years[2].value; 
         this.getRankingList(this.selectedYear, this.selectedGender);
       },
       err => {
