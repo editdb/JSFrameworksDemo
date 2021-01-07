@@ -5,13 +5,18 @@ import { DataGrid } from '@material-ui/data-grid';
 
 import { getPlayersList } from './DataService';
 
+import PlayerEdit from './PlayerEdit';
+
 
 function PlayerList() {
 
   const [players, setPlayers] = React.useState([]);
+  const [selectedPlayerId, setSelectedPlayerId] = React.useState(0);
 
+  const [playerEdit, setPlayerEdit] = React.useState(0);
   const editPlayer = (value) => {
-    alert(`Edit Player ${value}`);
+    setSelectedPlayerId(value);
+    setPlayerEdit(playerEdit+1);
   };
 
   const formatDate = (value) => {
@@ -73,6 +78,7 @@ function PlayerList() {
       <div style={{ height: 600, width: '100%' }}>
         <DataGrid rows={players} columns={columns} pageSize={8} />
       </div>
+      <PlayerEdit requestOpen={playerEdit} playerId={selectedPlayerId} />
     </div>
   );
 }

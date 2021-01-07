@@ -32,3 +32,25 @@ export const getPlayersList = () => {
   })
   .then(response => response.json());
 };
+
+export const getPlayer = (playerId) => {
+  console.log(`About to get url ${API}/Players/${playerId}`);
+  return fetch(`${API}/Players/${playerId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  .then(response => response.json());
+};
+
+export const getCountries = () => {
+  console.log(`About to get url ${API}/Countries`);
+  return fetch(`${API}/Countries`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  .then(response => response.json());
+};
