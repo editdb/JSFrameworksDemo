@@ -44,6 +44,30 @@ export const getPlayer = (playerId) => {
   .then(response => response.json());
 };
 
+export const updatePlayer = (player) => {
+  console.log(`About to get url ${API}/Players/${player.Id}`);
+  return fetch(`${API}/Players/${player.Id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(player),
+  })
+  .then(response => {
+    if (response.status === 404 || response.status === 200) {
+      return response.json()
+    }
+    return response.text().then(text => {      
+      return Promise.reject({
+        status: response.status,
+        ok: false,
+        statusText: response.statusText,
+        message: text
+      });
+    })
+  })
+};
+
 export const getCountries = () => {
   console.log(`About to get url ${API}/Countries`);
   return fetch(`${API}/Countries`, {

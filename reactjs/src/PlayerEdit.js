@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import './PlayerEdit.css';
 
 import Button from '@material-ui/core/Button';
@@ -12,8 +12,17 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+//import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+//import { red, blue } from '@material-ui/core/colors'
 
-import { getPlayer, getCountries } from './DataService';
+import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { getPlayer, getCountries, updatePlayer } from './DataService';
+
+//const redTheme = createMuiTheme({ palette: { primary: red } })
+//const blueTheme = createMuiTheme({ palette: { primary: blue } })
 
 export default function PlayerEdit(props) {
 
@@ -22,6 +31,7 @@ export default function PlayerEdit(props) {
   const [player, setPlayer] = React.useState({});
   const [countries, setCountries] = React.useState([]);
   const [turnedProYears] = React.useState(Array.from({length: 40}, (_, i) => i - 40 + new Date().getFullYear()));
+  const [btnUpdateDisabled, setBtnUpdateDisabled] = React.useState(true);
 
 
   // Listen to requestOpen html element property. If it's changed then open Dialog
@@ -72,20 +82,91 @@ export default function PlayerEdit(props) {
     setOpen(false);
   };
 
+  //var form;
+/*
+  const handleBlur = (e) => {
+    console.log(e.target);
+    const { name, value } = e.target;
+    if (name === "Name") {
+      e.target.validate(value);
+    }
+  };
+*/
+  const handleSubmit = () => {
+    if (formIsValid()) {
+      updatePlayer(player)
+      .then(
+        data => {
+          setOpen(false);
+        }
+      )
+      .catch(
+        err => {
+          toast(err.message, {type: toast.TYPE.ERROR});
+          //console.log(err.message);
+        }
+      );      
+    }
+  };
+
+    const formIsValid = () => {
+      let anyInvalid = document.getElementsByClassName('Mui-error').length > 0;
+      if (anyInvalid) {
+        return !anyInvalid;
+      }
+
+      return true;
+    }
+
+  useLayoutEffect(() => {  
+    const checkForm = () => {
+      if (document.getElementById('btnUpdate')) {
+        console.log("Invalid form: " + !formIsValid());
+        setBtnUpdateDisabled(!formIsValid());
+      }
+    }
+
+    setTimeout(checkForm, 50);
+  });
+
+  ValidatorForm.addValidationRule('minDobYear', value => {      
+    if (player.Dob && new Date(player.Dob).getFullYear() < 1970) {
+      return false;
+    } 
+    return true;
+  });
+
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" disableBackdropClick={true} disableEscapeKeyDown={true}>
-      <DialogTitle id="form-dialog-title">Edit Player</DialogTitle>
+      <ToastContainer />
+      <ValidatorForm
+        //ref={r => (form = r)}
+        onSubmit={handleSubmit}
+        onError={errors => console.log(errors)}
+      >
+
+      <DialogTitle id="form-dialog-title">Edit Player
+        <span className="buttonRow">
+          <Button id="btnUpdate" disabled={btnUpdateDisabled} onClick={handleSubmit} color="primary" variant="contained" size="small">Update</Button>&nbsp;
+          <Button onClick={handleClose} color="secondary" variant="contained" size="small">Cancel</Button>
+        </span>
+      </DialogTitle>
       <DialogContent>
-        <p>
+        <div className="row">
           <FormControl className="formControlInput">
-            <TextField
+            <TextValidator
               label="Name"
               autoFocus
               margin="dense"
+              id="Name"
               name="Name"
               required
               value={player.Name??''}
               onChange={handleInputChange}
+              //onBlur={handleBlur}
+              validators={["required"]}
+              errorMessages={["this field is required"]}  
+              withRequiredValidator={true}  
             />
           </FormControl>
 
@@ -103,9 +184,9 @@ export default function PlayerEdit(props) {
               })}
             </Select>
           </FormControl>
-        </p>
+        </div>
 
-        <p>
+        <div className="row">
           <FormControl className="formControlSelect">
             <InputLabel id="labelHanded">Handed</InputLabel>
             <Select
@@ -120,27 +201,33 @@ export default function PlayerEdit(props) {
           </FormControl>
 
           <FormControl className="formControlInput">
-            <TextField
+            <TextValidator
               label="Home town"
               margin="dense"
               name="HomeTown"
               required
               value={player.HomeTown??''}
               onChange={handleInputChange}
-            />
+              validators={["required"]}
+              errorMessages={["this field is required"]}  
+              withRequiredValidator={true}  
+             />
           </FormControl>
 
-        </p>
+        </div>
 
-        <p>
+        <div className="row">
           <FormControl className="formControlInput">
-            <TextField
+            <TextValidator
               label="Date of birth"
               margin="dense"
               name="Dob"
               type="date"
               value={player.Dob??''}
               onChange={handleInputChange}
+              validators={["minDobYear"]}
+              errorMessages={["The player is too old"]}  
+
             />
           </FormControl>
 
@@ -158,9 +245,9 @@ export default function PlayerEdit(props) {
             </Select>
           </FormControl>
 
-          </p>
+          </div>
 
-          <p>
+          <div className="row">
           <FormControl className="formControlInputNarrow">
             <TextField
               label="Height feet"
@@ -212,17 +299,12 @@ export default function PlayerEdit(props) {
             </Select>
           </FormControl>
 
-          </p>
+          </div>
 
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={handleClose} color="primary">
-          Subscribe
-        </Button>
-      </DialogActions>
+     </DialogActions>
+      </ValidatorForm>
     </Dialog>
   );
 }
