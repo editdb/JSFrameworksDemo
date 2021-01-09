@@ -1,3 +1,6 @@
+.dialogHidden {
+  display: none;
+}
 
 .MuiDialog-paper {
   overflow-x: hidden;

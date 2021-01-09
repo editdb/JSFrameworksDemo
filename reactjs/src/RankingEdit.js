@@ -21,6 +21,7 @@ export default function PlayerEdit(props) {
   const [ranking, setRanking] = React.useState({});
   const [playerName, setPlayerName] = React.useState("");
   const [btnUpdateDisabled, setBtnUpdateDisabled] = React.useState(true);
+  const [dialogClassName, setDialogClassName] = React.useState("dialogHidden");
 
 
   // Listen to requestOpen html element property. If it's changed then open Dialog
@@ -40,7 +41,10 @@ export default function PlayerEdit(props) {
       .then(dataRanking => {
         setRanking(dataRanking);
         getPlayerName(dataRanking.PlayerId)
-        .then(dataPlayer => setPlayerName(dataPlayer));
+        .then(dataPlayer => {
+          setPlayerName(dataPlayer);
+          setDialogClassName("");
+        });
       });
     };
 
@@ -57,6 +61,7 @@ export default function PlayerEdit(props) {
   };
 
   const handleClose = () => {
+    setDialogClassName("dialogHidden");
     setOpen(false);
   };
 
@@ -75,6 +80,7 @@ export default function PlayerEdit(props) {
       updateRanking(ranking)
       .then(data => {
         toast("Ranking updated", {type: toast.TYPE.SUCCESS});
+        setDialogClassName("dialogHidden");
         setOpen(false);
         if (props.onUpdated) {
           props.onUpdated();
@@ -113,7 +119,7 @@ export default function PlayerEdit(props) {
 */
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" disableBackdropClick={true} disableEscapeKeyDown={true}
-    transitionDuration="0">
+    transitionDuration="0" className={dialogClassName}>
       <ValidatorForm
         //ref={r => (form = r)}
         onSubmit={handleSubmit}
