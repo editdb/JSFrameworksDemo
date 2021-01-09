@@ -9,6 +9,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import PlayerList from './PlayerList';
 import RankingList from './RankingList';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
@@ -43,6 +45,7 @@ function App() {
   return (
     <Router>  
       <div className="App">
+      <ToastContainer />
         <AppBar position="static" className={classes.appBar}>
           <Toolbar>
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">

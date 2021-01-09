@@ -16,8 +16,7 @@ import FormControl from '@material-ui/core/FormControl';
 //import { red, blue } from '@material-ui/core/colors'
 
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 import { getPlayer, getCountries, updatePlayer } from './DataService';
 
@@ -36,11 +35,12 @@ export default function PlayerEdit(props) {
 
   // Listen to requestOpen html element property. If it's changed then open Dialog
   useEffect(() => {
-    if (props.requestOpen !== 0) {
+    if (props.requestOpen() === true) {
       setPlayerId(props.playerId);
       setOpen(true);
+      props.requestOpen(false);
     }
-  }, [props.requestOpen, props.playerId]);
+  }, [props]);
 
   // Listen to "open" change. Load the player data
   useEffect(() => {  
@@ -95,17 +95,14 @@ export default function PlayerEdit(props) {
   const handleSubmit = () => {
     if (formIsValid()) {
       updatePlayer(player)
-      .then(
-        data => {
-          setOpen(false);
+      .then(data => {
+        toast("Player updated", {type: toast.TYPE.SUCCESS});
+        setOpen(false);
+        if (props.onUpdated) {
+          props.onUpdated();
         }
-      )
-      .catch(
-        err => {
-          toast(err.message, {type: toast.TYPE.ERROR});
-          //console.log(err.message);
-        }
-      );      
+      })
+      .catch(err => toast(err.message, {type: toast.TYPE.ERROR}));  
     }
   };
 
@@ -137,8 +134,8 @@ export default function PlayerEdit(props) {
   });
 
   return (
-    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" disableBackdropClick={true} disableEscapeKeyDown={true}>
-      <ToastContainer />
+    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" disableBackdropClick={true} disableEscapeKeyDown={true}
+    transitionDuration="0">
       <ValidatorForm
         //ref={r => (form = r)}
         onSubmit={handleSubmit}

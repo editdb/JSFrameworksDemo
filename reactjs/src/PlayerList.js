@@ -13,10 +13,20 @@ function PlayerList() {
   const [players, setPlayers] = React.useState([]);
   const [selectedPlayerId, setSelectedPlayerId] = React.useState(0);
 
-  const [playerEdit, setPlayerEdit] = React.useState(0);
+  const [playerEdit, setPlayerEdit] = React.useState(false);
   const editPlayer = (value) => {
     setSelectedPlayerId(value);
-    setPlayerEdit(playerEdit+1);
+    fnPlayerEdit(true);
+    //setPlayerEdit(true);
+ };
+
+  const fnPlayerEdit = (value) => {
+    console.log("value="+value);
+    if (value !== undefined) {
+      setPlayerEdit(value);
+      return value;
+    }
+    return playerEdit;
   };
 
   const formatDate = (value) => {
@@ -26,6 +36,9 @@ function PlayerList() {
     return ukDate;
   };
 
+  const playerUpdated = () => {
+    getPlayers();
+  };
 
 
   const columns = [
@@ -46,25 +59,26 @@ function PlayerList() {
           onClick={(e) => editPlayer(params.value)}
           className="buttonLink"
         >
-          Edit Player {params.value}
+          Edit Player
         </button>
       ),
     }
   
   ];
 
+  const getPlayers = () => {
+    getPlayersList()
+      .then(data => {
+        data.forEach( rec => {
+          rec.id = rec.Id;
+          delete rec.Id;
+        });
+        console.log(data);
+        setPlayers(data);
+      });
+  };
+
   useEffect(() => {
-      const getPlayers = () => {
-        getPlayersList()
-          .then(data => {
-            data.forEach( rec => {
-              rec.id = rec.Id;
-              delete rec.Id;
-            });
-            console.log(data);
-            setPlayers(data);
-          });
-      };
   
       getPlayers();
     }, []
@@ -78,7 +92,7 @@ function PlayerList() {
       <div style={{ height: 600, width: '100%' }}>
         <DataGrid rows={players} columns={columns} pageSize={8} />
       </div>
-      <PlayerEdit requestOpen={playerEdit} playerId={selectedPlayerId} />
+      <PlayerEdit requestOpen={fnPlayerEdit} playerId={selectedPlayerId} onUpdated={playerUpdated} />
     </div>
   );
 }

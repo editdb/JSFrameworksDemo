@@ -45,7 +45,7 @@ export const getPlayer = (playerId) => {
 };
 
 export const updatePlayer = (player) => {
-  console.log(`About to get url ${API}/Players/${player.Id}`);
+  console.log(`About to PUT url ${API}/Players/${player.Id}`);
   return fetch(`${API}/Players/${player.Id}`, {
     method: 'PUT',
     headers: {
@@ -54,8 +54,8 @@ export const updatePlayer = (player) => {
     body: JSON.stringify(player),
   })
   .then(response => {
-    if (response.status === 404 || response.status === 200) {
-      return response.json()
+    if (response.status >= 200 && response.status < 300) {
+      return response.body.length>0?response.json():{};
     }
     return response.text().then(text => {      
       return Promise.reject({
