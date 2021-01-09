@@ -14,7 +14,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 //import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 //import { red, blue } from '@material-ui/core/colors'
-
+import FileUploadDD from './FileUploadDD.jsx';
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { toast } from 'react-toastify';
 
@@ -70,13 +70,25 @@ export default function PlayerEdit(props) {
     }
   }, [open, playerId]);
 
+  const fileReceived = (evt) => {
+    console.log("fileReceived() length:"+ evt.length);
+    setPlayer({    
+      ...player, "Photo": null
+    });  
+
+    setPlayer({    
+      ...player, "Photo": evt
+    });  
+  };
+
   const handleInputChange = (e) => {
     setPlayer({    
     ...player, [e.target.name]: e.target.type === 'number' ? parseInt(e.target.value) : e.target.value
-    })
+    });
   };
 
   const handleClose = () => {
+    setPlayer({});
     setOpen(false);
   };
 
@@ -95,6 +107,7 @@ export default function PlayerEdit(props) {
       updatePlayer(player)
       .then(data => {
         toast("Player updated", {type: toast.TYPE.SUCCESS});
+        setPlayer({});
         setOpen(false);
         if (props.onUpdated) {
           props.onUpdated();
@@ -295,7 +308,10 @@ export default function PlayerEdit(props) {
           </FormControl>
 
           </div>
-
+          {player.Photo != null &&
+          <img src={"data:image/jpeg;base64," + player.Photo} className="photo" alt="Player's pic" />
+          }
+          <FileUploadDD onFileReceived={fileReceived} />
       </DialogContent>
       <DialogActions>
      </DialogActions>

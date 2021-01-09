@@ -1,4 +1,4 @@
-const API = "http://192.168.99.100:53316/api";
+const API = "http://localhost:53316/api";
 
 export const getYears = (body) => {
   return fetch(`${API}/years`, {

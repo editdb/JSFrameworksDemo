@@ -36,7 +36,7 @@
 
 .formControlSelect {
   width: 11em !important;
-  margin-top: 0px !important;
+  margin-top: 6px !important;
 }
 
 .formControlSelectNarrow {
@@ -58,4 +58,8 @@
 .MuiInputBase-input {
   font-size: 90% !important;
   padding-bottom: 2px !important;
+}
+
+.photo {
+  height: 170px;
 }
