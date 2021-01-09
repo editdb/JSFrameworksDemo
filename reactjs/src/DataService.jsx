@@ -22,6 +22,42 @@ export const getRankingsList = (year, gender) => {
   .then(response => response.json());
 };
 
+export const getRanking = (rankingId) => {
+  console.log(`About to get url ${API}/Rankings/${rankingId}`);
+  return fetch(`${API}/Rankings/${rankingId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  .then(response => response.json());
+};
+
+
+export const updateRanking = (ranking) => {
+  console.log(`About to PUT url ${API}/Rankings/${ranking.Id}`);
+  return fetch(`${API}/Rankings/${ranking.Id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(ranking),
+  })
+  .then(response => {
+    if (response.status >= 200 && response.status < 300) {
+      return response.body.length>0?response.json():{};
+    }
+    return response.text().then(text => {      
+      return Promise.reject({
+        status: response.status,
+        ok: false,
+        statusText: response.statusText,
+        message: text
+      });
+    })
+  })
+};
+
 export const getPlayersList = () => {
   console.log(`About to get url ${API}/PlayersWithCountry`);
   return fetch(`${API}/PlayersWithCountry`, {
@@ -42,6 +78,17 @@ export const getPlayer = (playerId) => {
     },
   })
   .then(response => response.json());
+};
+
+export const getPlayerName = (playerId) => {
+  console.log(`About to get url ${API}/PlayerName/${playerId}`);
+  return fetch(`${API}/PlayerName/${playerId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  .then(response => response.text());
 };
 
 export const updatePlayer = (player) => {

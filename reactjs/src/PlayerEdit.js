@@ -71,10 +71,8 @@ export default function PlayerEdit(props) {
   }, [open, playerId]);
 
   const handleInputChange = (e) => {
-    console.log(`e.target.name=${e.target.name}`);
-    console.log(`e.target.value=${e.target.value}`);
     setPlayer({    
-    ...player, [e.target.name]: e.target.value
+    ...player, [e.target.name]: e.target.type === 'number' ? parseInt(e.target.value) : e.target.value
     })
   };
 
@@ -106,14 +104,14 @@ export default function PlayerEdit(props) {
     }
   };
 
-    const formIsValid = () => {
-      let anyInvalid = document.getElementsByClassName('Mui-error').length > 0;
-      if (anyInvalid) {
-        return !anyInvalid;
-      }
-
-      return true;
+  const formIsValid = () => {
+    let anyInvalid = document.getElementsByClassName('Mui-error').length > 0;
+    if (anyInvalid) {
+      return !anyInvalid;
     }
+
+    return true;
+  }
 
   useLayoutEffect(() => {  
     const checkForm = () => {

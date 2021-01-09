@@ -17,11 +17,9 @@ function PlayerList() {
   const editPlayer = (value) => {
     setSelectedPlayerId(value);
     fnPlayerEdit(true);
-    //setPlayerEdit(true);
- };
+  };
 
   const fnPlayerEdit = (value) => {
-    console.log("value="+value);
     if (value !== undefined) {
       setPlayerEdit(value);
       return value;
@@ -78,8 +76,7 @@ function PlayerList() {
       });
   };
 
-  useEffect(() => {
-  
+  useEffect(() => {  
       getPlayers();
     }, []
   );

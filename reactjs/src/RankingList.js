@@ -7,6 +7,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import { DataGrid } from '@material-ui/data-grid';
 
+import PlayerEdit from './PlayerEdit';
+import RankingEdit from './RankingEdit';
+
 import { getRankingsList, getYears } from './DataService';
 
 
@@ -25,12 +28,43 @@ function RankingList() {
     setYear(event.target.value);
   };
 
+  const [selectedPlayerId, setSelectedPlayerId] = React.useState(0);
+  const [selectedRankingId, setSelectedRankingId] = React.useState(0);
+
+  const [playerEdit, setPlayerEdit] = React.useState(false);
   const editPlayer = (value) => {
-    alert(`Edit Player ${value}`);
+    setSelectedPlayerId(value);
+    fnPlayerEdit(true);
   };
 
+  const fnPlayerEdit = (value) => {
+    if (value !== undefined) {
+      setPlayerEdit(value);
+      return value;
+    }
+    return playerEdit;
+  };
+
+  const [rankingEdit, setRankingEdit] = React.useState(false);
   const editRanking = (value) => {
-    alert(`Edit Ranking ${value}`);
+    setSelectedRankingId(value);
+    fnRankingEdit(true);
+  };
+
+  const fnRankingEdit = (value) => {
+    if (value !== undefined) {
+      setRankingEdit(value);
+      return value;
+    }
+    return rankingEdit;
+  };
+
+  const playerUpdated = () => {
+    getRankings();
+  };
+
+  const rankingUpdated = () => {
+    getRankings();
   };
 
   const genders = [
@@ -45,11 +79,11 @@ function RankingList() {
   });
 
   const columns = [
-    { field: 'Rank', headerName: 'Rank', width: 100 },
+    { field: 'Rank', headerName: 'Rank', type: 'number', width: 100 },
     { field: 'PlayerName', headerName: 'Name', width: 160 },
     { field: 'CountryName', headerName: 'Country', width: 160 },
-    { field: 'Points', headerName: 'Points', width: 100 },
-    { field: 'PrizeMoney', headerName: 'Prize Money', width: 140,
+    { field: 'Points', headerName: 'Points', type: 'number', width: 120 },
+    { field: 'PrizeMoney', headerName: 'Prize Money', type: 'number', width: 160,
       valueFormatter: ({ value }) => currencyFormatter.format(Number(value)), },
     { field: 'PlayerId', headerName: 'Actions', width: 140,
       renderCell: (params) => (
@@ -57,7 +91,7 @@ function RankingList() {
           onClick={(e) => editPlayer(params.value)}
           className="buttonLink"
         >
-          Edit Player {params.value}
+          Edit Player
         </button>
       ),
     },
@@ -67,7 +101,7 @@ function RankingList() {
           onClick={(e) => editRanking(params.value)}
           className="buttonLink"
         >
-          Edit Ranking {params.value}
+          Edit Ranking
         </button>
       ),
     },
@@ -82,20 +116,21 @@ function RankingList() {
     }, []
   );
 
-  useEffect(() => {
-      const getRankings = () => {
-        getRankingsList(year, gender)
-          .then(data => {
-            data.forEach( rec => {
-              rec.id = rec.Id;
-              delete rec.Id;
-            });
-            console.log(data);
-            setRankings(data);
-          });
-      };
-  
+  const getRankings = () => {
+    getRankingsList(year, gender)
+      .then(data => {
+        data.forEach( rec => {
+          rec.id = rec.Id;
+          delete rec.Id;
+        });
+        console.log(data);
+        setRankings(data);
+      });
+  };
+
+  useEffect(() => {  
       getRankings();
+// eslint-disable-next-line
     }, [gender, year]
   );
 
@@ -134,8 +169,17 @@ function RankingList() {
         </Select>
       </FormControl>
       <div style={{ height: 600, width: '100%' }}>
-        <DataGrid rows={rankings} columns={columns} pageSize={8} />
+        <DataGrid rows={rankings} columns={columns} pageSize={8} 
+        sortModel={[
+          {
+            field: 'Rank',
+            sort: 'asc',
+          },
+        ]}
+        />
       </div>
+      <PlayerEdit requestOpen={fnPlayerEdit} playerId={selectedPlayerId} onUpdated={playerUpdated} />
+      <RankingEdit requestOpen={fnRankingEdit} rankingId={selectedRankingId} onUpdated={rankingUpdated} />
     </div>
   );
 }

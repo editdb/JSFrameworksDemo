@@ -23,31 +23,8 @@
 }
 
 .formControlInput * {
-  width: 11em !important;
-  margin-top: 4px;
-  margin-right: 1.0em !important; 
-}
-
-.formControlInputNarrow {
-  width: 5em !important;
-  margin-top: 0px;
-  margin-right: 1.0em !important; 
-}
-
-.formControlSelect {
-  width: 11em !important;
-  margin-top: 0px !important;
-}
-
-.formControlSelectNarrow {
-  width: 5em !important;
-  margin-top: 7px !important;
-}
-
-.MuiSelect-root {
-  padding-top: 2px !important;
-  padding-bottom: 3px !important;
   width: 10em !important;
+  margin-top: 0px;
   margin-right: 1.0em !important; 
 }
 
