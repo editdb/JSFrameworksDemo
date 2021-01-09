@@ -169,7 +169,7 @@ export default function PlayerEdit(props) {
               id="Name"
               name="Name"
               required
-              value={player.Name??''}
+              value={player.Name??' '}
               onChange={handleInputChange}
               //onBlur={handleBlur}
               validators={["required"]}
@@ -200,7 +200,7 @@ export default function PlayerEdit(props) {
             <Select
               labelId="labelHanded"
               name="Handed"
-              value={player.Handed??''}
+              value={player.Handed??'R'}
               onChange={handleInputChange}
             >
               <MenuItem key="L" value="L">Left</MenuItem>;
@@ -231,7 +231,7 @@ export default function PlayerEdit(props) {
               margin="dense"
               name="Dob"
               type="date"
-              value={player.Dob??''}
+              value={player.Dob??' '}
               onChange={handleInputChange}
               validators={["minDobYear"]}
               errorMessages={["The player is too old"]}  
@@ -245,7 +245,7 @@ export default function PlayerEdit(props) {
               labelId="labelGender"
               name="Gender"
               required
-              value={player.Gender??''}
+              value={player.Gender??'M'}
               onChange={handleInputChange}
             >
               <MenuItem key="F" value="F">Female</MenuItem>;
@@ -263,7 +263,7 @@ export default function PlayerEdit(props) {
               name="HeightFeet"
               type="number"
               InputProps={{ inputProps: { min: 4, max: 8 } }}
-              value={player.HeightFeet??''}
+              value={player.HeightFeet??'0'}
               onChange={handleInputChange}
             />
           </FormControl>
@@ -275,7 +275,7 @@ export default function PlayerEdit(props) {
               name="HeightInches"
               type="number"
               InputProps={{ inputProps: { min: 0, max: 11 } }}
-              value={player.HeightInches??''}
+              value={player.HeightInches??'0'}
               onChange={handleInputChange}
             />
           </FormControl>
@@ -287,7 +287,7 @@ export default function PlayerEdit(props) {
               name="Weight"
               type="number"
               InputProps={{ inputProps: { min: 0 } }}
-              value={player.Weight??''}
+              value={player.Weight??'0'}
               onChange={handleInputChange}
             />
           </FormControl>
@@ -298,7 +298,7 @@ export default function PlayerEdit(props) {
               labelId="labelTurnedPro"
               name="TurnedPro"
               required
-              value={player.TurnedPro??''}
+              value={player.TurnedPro??'0'}
               onChange={handleInputChange}
             >
               {turnedProYears.map(function(item, index){
