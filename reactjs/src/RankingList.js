@@ -81,7 +81,11 @@ function RankingList() {
   const columns = [
     { field: 'Rank', headerName: 'Rank', type: 'number', width: 100 },
     { field: 'PlayerName', headerName: 'Name', width: 160 },
-    { field: 'CountryName', headerName: 'Country', width: 160 },
+    { field: 'CountryName', headerName: 'Country', width: 120, cellClassName: 'tableCellCentered',
+      renderCell: (params) => (
+        <img title={params.row.CountryName} src={params.row.CountryImageLink} alt={params.row.CountryName} className='flagCentered' />
+      )
+    },
     { field: 'Points', headerName: 'Points', type: 'number', width: 120 },
     { field: 'PrizeMoney', headerName: 'Prize Money', type: 'number', width: 160,
       valueFormatter: ({ value }) => currencyFormatter.format(Number(value)), },

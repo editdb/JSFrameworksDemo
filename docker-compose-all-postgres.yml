@@ -45,6 +45,16 @@ services:
       VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
     depends_on:
       - tennis-postgres-webapi-csharp
+
+  tennis-react:
+    build:
+      context: ./reactjs
+    ports:
+      - "3000:80"
+    environment:
+      VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
+    depends_on:
+      - tennis-postgres-webapi-csharp
   
 
 volumes:

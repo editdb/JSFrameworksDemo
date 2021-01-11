@@ -23,3 +23,14 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+
+.tableCellCentered {
+  text-align: center !important;
+}
+
+.flagCentered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

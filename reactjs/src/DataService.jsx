@@ -1,8 +1,10 @@
-const API = "http://localhost:53316/api";
-//const API = "http://192.168.99.100:53316/api";
+import Configuration from './Configuration';
+
+
+const rootUrl = (new Configuration()).value("webapiUrl");
 
 export const getYears = (body) => {
-  return fetch(`${API}/years`, {
+  return fetch(`${rootUrl}/years`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -13,8 +15,8 @@ export const getYears = (body) => {
 };
 
 export const getRankingsList = (year, gender) => {
-  console.log(`About to get url ${API}/RankingsList/${year}/${gender}`);
-  return fetch(`${API}/RankingsList/${year}/${gender}`, {
+  console.log(`About to get url ${rootUrl}/RankingsList/${year}/${gender}`);
+  return fetch(`${rootUrl}/RankingsList/${year}/${gender}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -24,8 +26,8 @@ export const getRankingsList = (year, gender) => {
 };
 
 export const getRanking = (rankingId) => {
-  console.log(`About to get url ${API}/Rankings/${rankingId}`);
-  return fetch(`${API}/Rankings/${rankingId}`, {
+  console.log(`About to get url ${rootUrl}/Rankings/${rankingId}`);
+  return fetch(`${rootUrl}/Rankings/${rankingId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -36,8 +38,8 @@ export const getRanking = (rankingId) => {
 
 
 export const updateRanking = (ranking) => {
-  console.log(`About to PUT url ${API}/Rankings/${ranking.Id}`);
-  return fetch(`${API}/Rankings/${ranking.Id}`, {
+  console.log(`About to PUT url ${rootUrl}/Rankings/${ranking.Id}`);
+  return fetch(`${rootUrl}/Rankings/${ranking.Id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -60,8 +62,8 @@ export const updateRanking = (ranking) => {
 };
 
 export const getPlayersList = () => {
-  console.log(`About to get url ${API}/PlayersWithCountry`);
-  return fetch(`${API}/PlayersWithCountry`, {
+  console.log(`About to get url ${rootUrl}/PlayersWithCountry`);
+  return fetch(`${rootUrl}/PlayersWithCountry`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -71,8 +73,8 @@ export const getPlayersList = () => {
 };
 
 export const getPlayer = (playerId) => {
-  console.log(`About to get url ${API}/Players/${playerId}`);
-  return fetch(`${API}/Players/${playerId}`, {
+  console.log(`About to get url ${rootUrl}/Players/${playerId}`);
+  return fetch(`${rootUrl}/Players/${playerId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -82,8 +84,8 @@ export const getPlayer = (playerId) => {
 };
 
 export const getPlayerName = (playerId) => {
-  console.log(`About to get url ${API}/PlayerName/${playerId}`);
-  return fetch(`${API}/PlayerName/${playerId}`, {
+  console.log(`About to get url ${rootUrl}/PlayerName/${playerId}`);
+  return fetch(`${rootUrl}/PlayerName/${playerId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -93,8 +95,8 @@ export const getPlayerName = (playerId) => {
 };
 
 export const updatePlayer = (player) => {
-  console.log(`About to PUT url ${API}/Players/${player.Id}`);
-  return fetch(`${API}/Players/${player.Id}`, {
+  console.log(`About to PUT url ${rootUrl}/Players/${player.Id}`);
+  return fetch(`${rootUrl}/Players/${player.Id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -117,8 +119,8 @@ export const updatePlayer = (player) => {
 };
 
 export const getCountries = () => {
-  console.log(`About to get url ${API}/Countries`);
-  return fetch(`${API}/Countries`, {
+  console.log(`About to get url ${rootUrl}/Countries`);
+  return fetch(`${rootUrl}/Countries`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
