@@ -1,0 +1,53 @@
+﻿<div id="mainContainer">
+    <div class="row">
+        <h5 class="col-md-6">
+            Player List
+        </h5>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="tbl" class="stripe ">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Country</th>
+                        <th>Gender</th>
+                        <th>Home Town</th>
+                        <th>Handed</th>
+                        <th>Born</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" />
+<style>
+    td {
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-1.7.1.min.js" integrity="sha256-iBcUE/x23aI6syuqF7EeT/+JFBxjPs5zeFJEXxumwb0=" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script>
+
+    var oTable = $('#tbl').dataTable({
+        "bServerSide": true,
+        "sAjaxSource": "/PlayerList/GetPlayerList",
+        "sServerMethod": "POST",
+        "aoColumns": [
+            { "mData": "Name" },
+            { "mData": o => "<img src='" + o.Country.ImageLink + "' alt='" + o.Country.Name + "' title='" + o.Country.Name + "' />", "className": "dt-center" },
+            { "mData": "Gender", "className": "dt-center" },
+            { "mData": "HomeTown" },
+            { "mData": "Handed", "className": "dt-center" },
+            { "mData": o => o.Dob == null ? "" : o.Dob.substr(8, 2) + "/" + o.Dob.substr(5, 2) + "/" + o.Dob.substr(0, 4) },
+            { "mData": o => "<a href='javascript:alert(\"Player Edit to come\")' class='btn btn-sm btn-info'><i class='fa fa-pencil fa-1'></i></a>", "className": "dt-center" }
+        ],
+    });
+</script>  

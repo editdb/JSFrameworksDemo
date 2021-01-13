@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisMongoDBWebApiCSharp",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisPostgresGraphQLCSharp", "TennisPostgresGraphQLCSharp\TennisPostgresGraphQLCSharp.csproj", "{536FC8B6-9597-4F9A-902D-2E253164487E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TennisPostgresWebApiIntegTest", "TennisPostgresWebApiIntegTest\TennisPostgresWebApiIntegTest.csproj", "{FAAEFA68-8D21-47F0-BC48-BC3479114437}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisPostgresWebApiIntegTest", "TennisPostgresWebApiIntegTest\TennisPostgresWebApiIntegTest.csproj", "{FAAEFA68-8D21-47F0-BC48-BC3479114437}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisSwGenClient", "TennisSwGenClient\TennisSwGenClient.csproj", "{3E86A109-7A49-4F70-9DC8-B5A7DB01D499}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TennisMvcClient", "TennisMvcClient\TennisMvcClient.csproj", "{C4E5CBFB-0487-435E-A8D9-925B98E85FC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{FAAEFA68-8D21-47F0-BC48-BC3479114437}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAAEFA68-8D21-47F0-BC48-BC3479114437}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAAEFA68-8D21-47F0-BC48-BC3479114437}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E86A109-7A49-4F70-9DC8-B5A7DB01D499}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E86A109-7A49-4F70-9DC8-B5A7DB01D499}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E86A109-7A49-4F70-9DC8-B5A7DB01D499}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E86A109-7A49-4F70-9DC8-B5A7DB01D499}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4E5CBFB-0487-435E-A8D9-925B98E85FC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4E5CBFB-0487-435E-A8D9-925B98E85FC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4E5CBFB-0487-435E-A8D9-925B98E85FC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4E5CBFB-0487-435E-A8D9-925B98E85FC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
