@@ -1,4 +1,6 @@
-﻿<div id="mainContainer">
+﻿@using TennisMvcClient.Components
+
+<div id="mainContainer">
     <div class="row">
         <h5 class="col-md-6">
             Player List
@@ -24,6 +26,8 @@
     </div>
 </div>
 
+@(await Html.RenderComponentAsync<PlayerEdit>(RenderMode.ServerPrerendered))
+
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" />
 <style>
@@ -47,7 +51,26 @@
             { "mData": "HomeTown" },
             { "mData": "Handed", "className": "dt-center" },
             { "mData": o => o.Dob == null ? "" : o.Dob.substr(8, 2) + "/" + o.Dob.substr(5, 2) + "/" + o.Dob.substr(0, 4) },
-            { "mData": o => "<a href='javascript:alert(\"Player Edit to come\")' class='btn btn-sm btn-info'><i class='fa fa-pencil fa-1'></i></a>", "className": "dt-center" }
+            { "mData": o => "<a href='#' onclick='blazorInterop.loadPlayerData(" + o.Id + ")' class='btn btn-sm btn-info' data-toggle='modal' data-target='#myModal'><i class='fa fa-pencil fa-1'></i></a>", "className": "dt-center" }
         ],
     });
 </script>  
+
+<script>
+    window.blazorInterop = {
+        dotNetReference: null,
+        setDotNetReference: function (dotNetReference) {
+            console.log("dotNetReference=" + dotNetReference);
+            this.dotNetReference = dotNetReference;
+        },
+        loadPlayerData: function (id) {
+            this.dotNetReference.invokeMethodAsync("LoadPlayer", id)
+//              .then(result => {
+//                  console.log(result);
+//              })
+                ;
+        }
+    };
+</script>
+
+<script src="_framework/blazor.server.js"></script>

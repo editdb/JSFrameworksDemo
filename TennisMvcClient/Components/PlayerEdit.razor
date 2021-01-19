@@ -1,0 +1,134 @@
+﻿@implements IDisposable
+@using Microsoft.AspNetCore.Components.Web
+@using System.Diagnostics
+@using TennisMvcClient.Models
+@using TennisMvcClient.ModelExtensions
+@using CoreApi.Client.Sdk.Model
+@using Microsoft.JSInterop
+@using Microsoft.AspNetCore.Components.Forms
+
+@using TennisMvcClient.Services
+@inject CountryServices CountryServices
+@inject PlayerServices PlayerServices
+@inject RankingServices RankingServices
+@inject IJSRuntime JS
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Player Edit</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="@player" OnValidSubmit="@HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <InputText id="Name" @bind-Value="player.Name" />
+                    <ValidationMessage For="@(() => player.Name)" />
+
+                    <select id="CountryId" @bind="player.Cоuntry">
+                        <option value=""> </option>
+                        @foreach (var country in countries) {
+                            <option value=@country.Id>@country.Name</option>
+                        }
+                    </select>
+
+                    <select id="Handed" @bind="player.Handed">
+                        <option value="R">Right</option>
+                        <option value="L">Left</option>
+                    </select>
+
+                    <InputText id="HomeTown" @bind-Value="player.HomeTown" />
+
+                    <InputDate id="Dob" @bind-Value="player.Dob" />
+
+                    <select id="Gender" @bind="player.Gender">
+                        <option value="F">Female</option>
+                        <option value="M">Male</option>
+                    </select>
+
+                    <InputNumber id="HeightFeet" @bind-Value="player.HeightFeet" @attributes='new Dictionary<string, object> { { "min", 4 }, { "max", 7 } } ' />
+
+                    <InputNumber id="HeightInches" @bind-Value="player.HeightInches" @attributes='new Dictionary<string, object> { { "min", 0 }, { "max", 11 } } ' />
+
+                    <InputNumber id="Weight" @bind-Value="player.Weight" @attributes='new Dictionary<string, object> { { "min", 0 } } ' />
+
+
+                    <select id="TurnedPro" @bind="player.TurnedPro">
+                        <option value=""> </option>
+                        @foreach (var year in years) {
+                            <option value=@year>@year</option>
+                        }
+                    </select>
+
+                    <button type="submit">Submit</button>
+                </EditForm>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@code {
+    private DotNetObjectReference<JsToDotNetBridge> jsToDotNetBridgeReference;
+
+    PlayerExtension player = new PlayerExtension();
+    IEnumerable<Country> countries = new List<Country>();
+    IEnumerable<int> years = Enumerable.Range(DateTime.Today.Year - 50, 50);
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) {
+            jsToDotNetBridgeReference = DotNetObjectReference.Create(new JsToDotNetBridge(this));
+            JS.InvokeVoidAsync("blazorInterop.setDotNetReference", jsToDotNetBridgeReference);
+
+            CountryServices.getCountries()
+                .ContinueWith(result =>
+                {
+                    countries = result.Result;
+                });
+
+        }
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    public void Dispose()
+    {
+        jsToDotNetBridgeReference?.Dispose();
+    }
+
+
+    // class embedded for demo purposes, move this class out of your razor component
+    public class JsToDotNetBridge
+    {
+        PlayerEdit _this;
+
+        public JsToDotNetBridge(PlayerEdit playerEdit)
+        {
+            this._this = playerEdit;
+        }
+
+        [JSInvokable]
+        public async Task<Player> LoadPlayer(long id)
+        {
+            Player player = await _this.PlayerServices.getPlayer(id);
+            _this.player = new PlayerExtension(player);
+            _this.StateHasChanged();
+            return _this.player;
+        }
+    }
+
+    private void HandleValidSubmit()
+    {
+        Debug.WriteLine("ValidSubmit");
+        PlayerServices.updatePlayer(player);
+    }
+
+}
