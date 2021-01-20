@@ -36,7 +36,7 @@
         padding-bottom: 4px !important;
     }
 </style>
-<script src="https://code.jquery.com/jquery-1.7.1.min.js" integrity="sha256-iBcUE/x23aI6syuqF7EeT/+JFBxjPs5zeFJEXxumwb0=" crossorigin="anonymous"></script>
+<!-- script src="https://code.jquery.com/jquery-1.7.1.min.js" integrity="sha256-iBcUE/x23aI6syuqF7EeT/+JFBxjPs5zeFJEXxumwb0=" crossorigin="anonymous"></!--script -->
 <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
 <script>
 
@@ -55,26 +55,6 @@
             { "mData": o => "<a href='#' onclick='blazorInterop.loadPlayerData(" + o.Id + ")' class='btn btn-sm btn-info' data-toggle='modal' data-target='#myModal'><i class='fa fa-pencil fa-1'></i></a>", "className": "dt-center" }
         ],
     });
-
-/*
-    var oTable = $('#tbl').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "ajax": {
-            "url": "/PlayerList/GetPlayerList2",
-            "type": "POST"
-        },
-        "Columns": [
-            { "data": "Name" },
-            { "data": o => "<img src='" + o.Country.ImageLink + "' alt='" + o.Country.Name + "' title='" + o.Country.Name + "' />", "className": "dt-center" },
-            { "data": "Gender", "className": "dt-center" },
-            { "data": "HomeTown" },
-            { "data": "Handed", "className": "dt-center" },
-            { "data": o => o.Dob == null ? "" : o.Dob.substr(8, 2) + "/" + o.Dob.substr(5, 2) + "/" + o.Dob.substr(0, 4) },
-            { "data": o => "<a href='#' onclick='blazorInterop.loadPlayerData(" + o.Id + ")' class='btn btn-sm btn-info' data-toggle='modal' data-target='#myModal'><i class='fa fa-pencil fa-1'></i></a>", "className": "dt-center" }
-        ],
-    });
-*/
 </script>  
 
 <script>
@@ -87,6 +67,15 @@
         closeAndRefresh: function () {
             console.log("closeAndRefresh");
             $("#myModal").modal('hide');
+            
+            $.toast({
+                title: "Data Update",
+                subtitle: "info",
+                content: "Successful",
+                type: "success",
+                delay: 3000
+            });
+            
             oTable.fnDraw(false);  // false retains page number
         },
         loadPlayerData: function (id) {
@@ -98,21 +87,43 @@
         }
     };
 
-    function RefreshTable(tableId, urlData) {
-        $.getJSON(urlData, null, function (json) {
-            table = $(tableId).dataTable();
-            oSettings = table.fnSettings();
+</script>
 
-            table.fnClearTable(this);
-
-            for (var i = 0; i < json.aaData.length; i++) {
-                table.oApi._fnAddData(oSettings, json.aaData[i]);
-            }
-
-            oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
-            table.fnDraw();
-        });
+<style>
+    #toast-container {
+        position: sticky;
+        z-index: 1055;
+        top: 0
     }
+
+    #toast-wrapper {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 5px
+    }
+
+    #toast-container > #toast-wrapper > .toast {
+        min-width: 150px
+    }
+
+    #toast-container > #toast-wrapper > .toast > .toast-header strong {
+        padding-right: 20px
+    }
+</style>
+
+<script>
+    (function (b) {
+        b.toast = function (a, h, g, l, k) {
+            b("#toast-container").length || (b("body").prepend('<div id="toast-container" aria-live="polite" aria-atomic="true"></div>'), b("#toast-container").append('<div id="toast-wrapper"></div>')); var c = "", d = "", e = "text-muted", f = "", m = "object" === typeof a ? a.title || "" : a || "Notice!"; h = "object" === typeof a ? a.subtitle || "" : h || ""; g = "object" === typeof a ? a.content || "" : g || ""; k = "object" === typeof a ? a.delay || 3E3 : k || 3E3; switch ("object" === typeof a ? a.type || "" : l || "info") {
+                case "info": c = "bg-info";
+                    f = e = d = "text-white"; break; case "success": c = "bg-success"; f = e = d = "text-white"; break; case "warning": case "warn": c = "bg-warning"; f = e = d = "text-white"; break; case "error": case "danger": c = "bg-danger", f = e = d = "text-white"
+            }a = '<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="' + k + '">' + ('<div class="toast-header ' + c + " " + d + '">') + ('<strong class="mr-auto">' + m + "</strong>"); a += '<small class="' + e + '">' + h + "</small>"; a += '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">';
+            a += '<span aria-hidden="true" class="' + f + '">&times;</span>'; a += "</button>"; a += "</div>"; "" !== g && (a += '<div class="toast-body">', a += g, a += "</div>"); a += "</div>"; b("#toast-wrapper").append(a); b("#toast-wrapper .toast:last").toast("show")
+        }
+    })(jQuery);
+    const TYPES = ['info', 'warning', 'success', 'error'];
+
 
 </script>
 
