@@ -4,6 +4,7 @@
 @using TennisMvcClient.Models
 @using TennisMvcClient.ModelExtensions
 @using CoreApi.Client.Sdk.Model
+@using CoreApi.Client.Sdk.Client
 @using Microsoft.JSInterop
 @using Microsoft.AspNetCore.Components.Forms
 
@@ -14,17 +15,19 @@
 @inject IJSRuntime JS
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <EditForm Model="@player" OnValidSubmit="@HandleValidSubmit" @attributes='new Dictionary<string, object> { { "autocomplete", "off" } } '>
+        <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Player Edit</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <EditForm Model="@player" OnValidSubmit="@HandleValidSubmit">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Player Edit</h4>
+                    <button type="submit" class="btn btn-default button-right">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                <div class="modal-body">
                     <DataAnnotationsValidator />
+                    <CustomValidator @ref="custVal" />
                     <ValidationSummary />
 
                     <InputText id="Name" @bind-Value="player.Name" />
@@ -58,26 +61,49 @@
                     <InputNumber id="Weight" @bind-Value="player.Weight" @attributes='new Dictionary<string, object> { { "min", 0 } } ' />
 
 
-                    <select id="TurnedPro" @bind="player.TurnedPro">
+                    <select id="Turned_Pro" @bind="player.Turned_Pro">
                         <option value=""> </option>
                         @foreach (var year in years) {
                             <option value=@year>@year</option>
                         }
                     </select>
 
-                    <button type="submit">Submit</button>
-                </EditForm>
+                </div>
+                <!--
+                <div class="modal-footer">
+                </div>
+                -->
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
 
-    </div>
+        </div>
+    </EditForm>
 </div>
+
+<style>
+    .button-right {
+        float: right;
+        margin: 0rem 0rem 0rem auto;
+    }
+
+    .form-control.invalid {
+        border-color: #dc3545;
+    }
+
+    .form-control.valid {
+        border-color: #28a745;
+    }
+
+    .validation-message {
+        width: 100%;
+        margin-top: .25rem;
+        font-size: 80%;
+        color: #dc3545;
+    }
+</style>
 
 @code {
     private DotNetObjectReference<JsToDotNetBridge> jsToDotNetBridgeReference;
+    CustomValidator custVal;
 
     PlayerExtension player = new PlayerExtension();
     IEnumerable<Country> countries = new List<Country>();
@@ -125,10 +151,25 @@
         }
     }
 
-    private void HandleValidSubmit()
+    private async void HandleValidSubmit()
     {
         Debug.WriteLine("ValidSubmit");
-        PlayerServices.updatePlayer(player);
+        try {
+            await PlayerServices.updatePlayer(player);
+            await JS.InvokeVoidAsync("blazorInterop.closeAndRefresh", null);
+        }
+        catch (Exception e) {
+            custVal.ClearErrors();
+            string errorMessage = e.Message;
+            if (typeof(ApiException).IsInstanceOfType(e)) {
+                var apiException = (ApiException) e;
+                errorMessage = apiException.ErrorContent.ToString().Replace("\"", "");
+            }
+
+            custVal.AddError("Name", errorMessage);
+            custVal.DisplayErrors();
+        }
+
     }
 
 }

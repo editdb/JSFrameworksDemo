@@ -36,7 +36,7 @@ namespace TennisMvcClient.ModelExtensions
 
         [Required]
         [DisplayName("Turned Pro")]   //Blazor ignores this "by design" apparently. Well done Microsoft!
-        public int? Turned_Pro { get; set; }
+        public int? Turned_Pro { get { return TurnedPro; } set { TurnedPro = value; } }
 
 
 

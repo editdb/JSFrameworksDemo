@@ -40,6 +40,7 @@
 <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
 <script>
 
+    // n.b. this is legacy "dataTable" rather than the current "DataTable" which has a more complex json response
     var oTable = $('#tbl').dataTable({
         "bServerSide": true,
         "sAjaxSource": "/PlayerList/GetPlayerList",
@@ -54,6 +55,26 @@
             { "mData": o => "<a href='#' onclick='blazorInterop.loadPlayerData(" + o.Id + ")' class='btn btn-sm btn-info' data-toggle='modal' data-target='#myModal'><i class='fa fa-pencil fa-1'></i></a>", "className": "dt-center" }
         ],
     });
+
+/*
+    var oTable = $('#tbl').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "/PlayerList/GetPlayerList2",
+            "type": "POST"
+        },
+        "Columns": [
+            { "data": "Name" },
+            { "data": o => "<img src='" + o.Country.ImageLink + "' alt='" + o.Country.Name + "' title='" + o.Country.Name + "' />", "className": "dt-center" },
+            { "data": "Gender", "className": "dt-center" },
+            { "data": "HomeTown" },
+            { "data": "Handed", "className": "dt-center" },
+            { "data": o => o.Dob == null ? "" : o.Dob.substr(8, 2) + "/" + o.Dob.substr(5, 2) + "/" + o.Dob.substr(0, 4) },
+            { "data": o => "<a href='#' onclick='blazorInterop.loadPlayerData(" + o.Id + ")' class='btn btn-sm btn-info' data-toggle='modal' data-target='#myModal'><i class='fa fa-pencil fa-1'></i></a>", "className": "dt-center" }
+        ],
+    });
+*/
 </script>  
 
 <script>
@@ -63,6 +84,11 @@
             console.log("dotNetReference=" + dotNetReference);
             this.dotNetReference = dotNetReference;
         },
+        closeAndRefresh: function () {
+            console.log("closeAndRefresh");
+            $("#myModal").modal('hide');
+            oTable.fnDraw(false);  // false retains page number
+        },
         loadPlayerData: function (id) {
             this.dotNetReference.invokeMethodAsync("LoadPlayer", id)
 //              .then(result => {
@@ -71,6 +97,23 @@
                 ;
         }
     };
+
+    function RefreshTable(tableId, urlData) {
+        $.getJSON(urlData, null, function (json) {
+            table = $(tableId).dataTable();
+            oSettings = table.fnSettings();
+
+            table.fnClearTable(this);
+
+            for (var i = 0; i < json.aaData.length; i++) {
+                table.oApi._fnAddData(oSettings, json.aaData[i]);
+            }
+
+            oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+            table.fnDraw();
+        });
+    }
+
 </script>
 
 <script src="_framework/blazor.server.js"></script>
