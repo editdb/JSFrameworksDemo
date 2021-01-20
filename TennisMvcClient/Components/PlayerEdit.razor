@@ -22,74 +22,146 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Player Edit</h4>
-                    <button type="submit" class="btn btn-default button-right">Submit</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success button-right">Save</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
                 <div class="modal-body">
                     <DataAnnotationsValidator />
                     <CustomValidator @ref="custVal" />
-                    <ValidationSummary />
+                    <!-- ValidationSummary / -->
 
-                    <InputText id="Name" @bind-Value="player.Name" />
-                    <ValidationMessage For="@(() => player.Name)" />
+                    <!-- Put any general error messages against the Id field -->
+                    <div class="alert alert-danger" role="alert"><ValidationMessage For="@(() => player.Id)" class="alert alert-danger" /></div>
 
-                    <select id="CountryId" @bind="player.Cоuntry">
-                        <option value=""> </option>
-                        @foreach (var country in countries) {
-                            <option value=@country.Id>@country.Name</option>
-                        }
-                    </select>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="Name">Name</label>
+                            <InputText id="Name" @bind-Value="player.Name" class="form-control" />
+                            <ValidationMessage For="@(() => player.Name)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="CountryId">Country</label>
+                            <CustomInputSelect id="CountryId" @bind-Value="player.Cоuntry" class="form-control valid">
+                                <option value=""> </option>
+                                @foreach (var country in countries) {
+                                    <option value=@country.Id>@country.Name</option>
+                                }
+                            </CustomInputSelect>
+                            <ValidationMessage For="@(() => player.Cоuntry)" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="Handed">Handed</label>
+                            <CustomInputSelect id="Handed" @bind-Value="player.Handed" class="form-control">
+                                <option value="R">Right</option>
+                                <option value="L">Left</option>
+                            </CustomInputSelect>
+                            <ValidationMessage For="@(() => player.Handed)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="HomeTown">Home town</label>
+                            <InputText id="HomeTown" @bind-Value="player.HomeTown" class="form-control" />
+                            <ValidationMessage For="@(() => player.HomeTown)" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="Dob">Born</label>
+                            <InputDate id="Dob" @bind-Value="player.Dob" class="form-control" />
+                            <ValidationMessage For="@(() => player.Dob)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="Gender">Gender</label>
+                            <CustomInputSelect id="Gender" @bind-Value="player.Gender" class="form-control">
+                                <option value="F">Female</option>
+                                <option value="M">Male</option>
+                            </CustomInputSelect>
+                            <ValidationMessage For="@(() => player.Gender)" />
+                        </div>
+                    </div>
 
-                    <select id="Handed" @bind="player.Handed">
-                        <option value="R">Right</option>
-                        <option value="L">Left</option>
-                    </select>
-
-                    <InputText id="HomeTown" @bind-Value="player.HomeTown" />
-
-                    <InputDate id="Dob" @bind-Value="player.Dob" />
-
-                    <select id="Gender" @bind="player.Gender">
-                        <option value="F">Female</option>
-                        <option value="M">Male</option>
-                    </select>
-
-                    <InputNumber id="HeightFeet" @bind-Value="player.HeightFeet" @attributes='new Dictionary<string, object> { { "min", 4 }, { "max", 7 } } ' />
-
-                    <InputNumber id="HeightInches" @bind-Value="player.HeightInches" @attributes='new Dictionary<string, object> { { "min", 0 }, { "max", 11 } } ' />
-
-                    <InputNumber id="Weight" @bind-Value="player.Weight" @attributes='new Dictionary<string, object> { { "min", 0 } } ' />
-
-
-                    <select id="Turned_Pro" @bind="player.Turned_Pro">
-                        <option value=""> </option>
-                        @foreach (var year in years) {
-                            <option value=@year>@year</option>
-                        }
-                    </select>
-
-                </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="HeightFeet">Height feet</label>
+                            <InputNumber id="HeightFeet" @bind-Value="player.HeightFeet" @attributes='new Dictionary<string, object> { { "min", 4 }, { "max", 7 } } ' class="form-control" />
+                            <ValidationMessage For="@(() => player.HeightFeet)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="HeightInches">inches</label>
+                            <InputNumber id="HeightInches" @bind-Value="player.HeightInches" @attributes='new Dictionary<string, object> { { "min", 0 }, { "max", 11 } } ' class="form-control" />
+                            <ValidationMessage For="@(() => player.HeightInches)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="Weight">Weight lbs</label>
+                            <InputNumber id="Weight" @bind-Value="player.Weight" @attributes='new Dictionary<string, object> { { "min", 0 } } ' class="form-control" />
+                            <ValidationMessage For="@(() => player.Weight)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="Turned_Pro">Turned Pro</label>
+                            <CustomInputSelect id="Turned_Pro" @bind-Value="player.Turned_Pro" class="form-control">
+                                <option value=""> </option>
+                                @foreach (var year in years) {
+                                    <option value=@year>@year</option>
+                                }
+                            </CustomInputSelect>
+                            <ValidationMessage For="@(() => player.Turned_Pro)" />
+                        </div>
+                    </div>
+                </div> <!--modal-body-->
                 <!--
                 <div class="modal-footer">
                 </div>
                 -->
-            </div>
 
-        </div>
+            </div> <!--"modal-content-->
+        </div> <!--modal-dialog-->
     </EditForm>
 </div>
 
 <style>
+    .btn-success, .btn-danger {
+        width: 4.0rem;
+    }
     .button-right {
         float: right;
-        margin: 0rem 0rem 0rem auto;
+        margin: 0rem 0.3rem 0rem auto;
     }
 
-    .form-control.invalid {
+    .alert {
+        padding-top: 0.25rem;
+        padding-right: 1.25rem;
+        padding-bottom: 0.45rem;
+        padding-left: 1.25rem;
+    }
+    .alert-danger {
+        display: block;
+    }
+
+    .alert-danger:empty {
+        display: none;
+    }
+
+    .form-row {
+        line-height: 1.0;
+    }
+
+    .form-control {
+        padding-top: 0.175rem;
+        padding-bottom: 0.175rem;
+        height: auto;
+    }
+
+    label {
+        margin-bottom: .2rem;
+        font-size: 80%;
+    }
+
+    .modified.invalid {
         border-color: #dc3545;
     }
 
-    .form-control.valid {
+    .valid {
         border-color: #28a745;
     }
 
@@ -166,7 +238,7 @@
                 errorMessage = apiException.ErrorContent.ToString().Replace("\"", "");
             }
 
-            custVal.AddError("Name", errorMessage);
+            custVal.AddError("Id", errorMessage);
             custVal.DisplayErrors();
         }
 
