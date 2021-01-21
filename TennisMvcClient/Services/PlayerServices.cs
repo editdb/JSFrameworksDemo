@@ -14,6 +14,12 @@ namespace TennisMvcClient.Services
             return await papi.ApiPlayersIdGetAsync(id);
         }
 
+        public async Task<string> getPlayerName(long id)
+        {
+            var player = await papi.ApiPlayersIdGetAsync(id);
+            return player.Name;
+        }
+
         public async Task updatePlayer(Player player)
         {
             await papi.ApiPlayersIdPutAsync(player.Id, player);

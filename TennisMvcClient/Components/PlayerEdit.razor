@@ -14,7 +14,7 @@
 @inject RankingServices RankingServices
 @inject IJSRuntime JS
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="modalPlayerEdit" class="modal fade" role="dialog">
     <EditForm Model="@player" OnValidSubmit="@HandleValidSubmit" @attributes='new Dictionary<string, object> { { "autocomplete", "off" } } '>
         <div class="modal-dialog">
 
@@ -29,7 +29,6 @@
                     <DataAnnotationsValidator />
                     <CustomValidator @ref="custVal" />
                     <!-- ValidationSummary / -->
-
                     <!-- Put any general error messages against the Id field -->
                     <div class="alert alert-danger" role="alert"><ValidationMessage For="@(() => player.Id)" class="alert alert-danger" /></div>
 
@@ -108,6 +107,18 @@
                             <ValidationMessage For="@(() => player.Turned_Pro)" />
                         </div>
                     </div>
+
+                    @if (player.Photo != null) {
+                        <img id="Photo" src=@("data:image/jpeg;base64," + Convert.ToBase64String(player.Photo)) className="photo" alt="Player's pic" />
+                    }
+                    <div id="drop_zone" class="drop-zone"
+                        ondragover="dragover(event)"
+                        ondragleave="dragleave(event)"
+                        ondrop="drop(event)"
+                        >Drop file here
+                    </div>
+
+
                 </div> <!--modal-body-->
                 <!--
                 <div class="modal-footer">
@@ -171,6 +182,10 @@
         font-size: 80%;
         color: #dc3545;
     }
+
+    .photo {
+        height: 170px;
+    }
 </style>
 
 @code {
@@ -220,6 +235,19 @@
             _this.player = new PlayerExtension(player);
             _this.StateHasChanged();
             return _this.player;
+        }
+
+        [JSInvokable]
+        public string GetBase64SetMethodName()
+        {
+            return "SetPhoto";
+        }
+
+        [JSInvokable]
+        public void SetPhoto(string photoBase64)
+        {
+            _this.player.Photo = Convert.FromBase64String(photoBase64);
+            _this.StateHasChanged();
         }
     }
 
