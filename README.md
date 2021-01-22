@@ -3,7 +3,7 @@
 ### This repo provides Postres and MongoDB databases along with C# WebApi endpoints to access them. In addition there is a GraphQL endpoint which provides access to the Postgres data.
 
 ---
-### Angular 10, Vue.js and ReactJS front-end projects are included to provide end-user access to the Postres \[[here](#Running-Angular-and-Vue-via-WebApi-to-Postgres)\]
+### Angular 10, Vue.js, ReactJS and Blazor front-end projects are included to provide end-user access to the Postres \[[here](#Running-Angular-and-Vue-via-WebApi-to-Postgres)\]
 ### and MongoDB data via the endpoints \[[here](#Running-Angular-via-WebApi-to-MongoDB)\].
 ---
 ### Another Angular 10 project accesses the Postgres database via a C# GraphQL endpoint \[[here](#Running-Angular-via-GraphQL-to-Postgres)\].
