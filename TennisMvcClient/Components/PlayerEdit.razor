@@ -1,0 +1,275 @@
+﻿@implements IDisposable
+@using Microsoft.AspNetCore.Components.Web
+@using System.Diagnostics
+@using TennisMvcClient.Models
+@using TennisMvcClient.ModelExtensions
+@using CoreApi.Client.Sdk.Model
+@using CoreApi.Client.Sdk.Client
+@using Microsoft.JSInterop
+@using Microsoft.AspNetCore.Components.Forms
+
+@using TennisMvcClient.Services
+@inject CountryServices CountryServices
+@inject PlayerServices PlayerServices
+@inject RankingServices RankingServices
+@inject IJSRuntime JS
+<!-- Modal -->
+<div id="modalPlayerEdit" class="modal fade" role="dialog">
+    <EditForm Model="@player" OnValidSubmit="@HandleValidSubmit" @attributes='new Dictionary<string, object> { { "autocomplete", "off" } } '>
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Player Edit</h4>
+                    <button type="submit" class="btn btn-success button-right">Save</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+                <div class="modal-body">
+                    <DataAnnotationsValidator />
+                    <CustomValidator @ref="custVal" />
+                    <!-- ValidationSummary / -->
+                    <!-- Put any general error messages against the Id field -->
+                    <div class="alert alert-danger" role="alert"><ValidationMessage For="@(() => player.Id)" class="alert alert-danger" /></div>
+
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="Name">Name</label>
+                            <InputText id="Name" @bind-Value="player.Name" class="form-control" />
+                            <ValidationMessage For="@(() => player.Name)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="CountryId">Country</label>
+                            <CustomInputSelect id="CountryId" @bind-Value="player.Cоuntry" class="form-control valid">
+                                <option value=""> </option>
+                                @foreach (var country in countries) {
+                                    <option value=@country.Id>@country.Name</option>
+                                }
+                            </CustomInputSelect>
+                            <ValidationMessage For="@(() => player.Cоuntry)" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="Handed">Handed</label>
+                            <CustomInputSelect id="Handed" @bind-Value="player.Handed" class="form-control">
+                                <option value="R">Right</option>
+                                <option value="L">Left</option>
+                            </CustomInputSelect>
+                            <ValidationMessage For="@(() => player.Handed)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="HomeTown">Home town</label>
+                            <InputText id="HomeTown" @bind-Value="player.HomeTown" class="form-control" />
+                            <ValidationMessage For="@(() => player.HomeTown)" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="Dob">Born</label>
+                            <InputDate id="Dob" @bind-Value="player.Dob" class="form-control" />
+                            <ValidationMessage For="@(() => player.Dob)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="Gender">Gender</label>
+                            <CustomInputSelect id="Gender" @bind-Value="player.Gender" class="form-control">
+                                <option value="F">Female</option>
+                                <option value="M">Male</option>
+                            </CustomInputSelect>
+                            <ValidationMessage For="@(() => player.Gender)" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="HeightFeet">Height feet</label>
+                            <InputNumber id="HeightFeet" @bind-Value="player.HeightFeet" @attributes='new Dictionary<string, object> { { "min", 4 }, { "max", 7 } } ' class="form-control" />
+                            <ValidationMessage For="@(() => player.HeightFeet)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="HeightInches">inches</label>
+                            <InputNumber id="HeightInches" @bind-Value="player.HeightInches" @attributes='new Dictionary<string, object> { { "min", 0 }, { "max", 11 } } ' class="form-control" />
+                            <ValidationMessage For="@(() => player.HeightInches)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="Weight">Weight lbs</label>
+                            <InputNumber id="Weight" @bind-Value="player.Weight" @attributes='new Dictionary<string, object> { { "min", 0 } } ' class="form-control" />
+                            <ValidationMessage For="@(() => player.Weight)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="Turned_Pro">Turned Pro</label>
+                            <CustomInputSelect id="Turned_Pro" @bind-Value="player.Turned_Pro" class="form-control">
+                                <option value=""> </option>
+                                @foreach (var year in years) {
+                                    <option value=@year>@year</option>
+                                }
+                            </CustomInputSelect>
+                            <ValidationMessage For="@(() => player.Turned_Pro)" />
+                        </div>
+                    </div>
+
+                    @if (player.Photo != null) {
+                        <img id="Photo" src=@("data:image/jpeg;base64," + Convert.ToBase64String(player.Photo)) className="photo" alt="Player's pic" />
+                    }
+                    <div id="drop_zone" class="drop-zone"
+                        ondragover="dragover(event)"
+                        ondragleave="dragleave(event)"
+                        ondrop="drop(event)"
+                        >Drop file here
+                    </div>
+
+
+                </div> <!--modal-body-->
+                <!--
+                <div class="modal-footer">
+                </div>
+                -->
+
+            </div> <!--"modal-content-->
+        </div> <!--modal-dialog-->
+    </EditForm>
+</div>
+
+<style>
+    .btn-success, .btn-danger {
+        width: 4.0rem;
+    }
+    .button-right {
+        float: right;
+        margin: 0rem 0.3rem 0rem auto;
+    }
+
+    .alert {
+        padding-top: 0.25rem;
+        padding-right: 1.25rem;
+        padding-bottom: 0.45rem;
+        padding-left: 1.25rem;
+    }
+    .alert-danger {
+        display: block;
+    }
+
+    .alert-danger:empty {
+        display: none;
+    }
+
+    .form-row {
+        line-height: 1.0;
+    }
+
+    .form-control {
+        padding-top: 0.175rem;
+        padding-bottom: 0.175rem;
+        height: auto;
+    }
+
+    label {
+        margin-bottom: .2rem;
+        font-size: 80%;
+    }
+
+    .modified.invalid {
+        border-color: #dc3545;
+    }
+
+    .valid {
+        border-color: #28a745;
+    }
+
+    .validation-message {
+        width: 100%;
+        margin-top: .25rem;
+        font-size: 80%;
+        color: #dc3545;
+    }
+
+    .photo {
+        height: 170px;
+    }
+</style>
+
+@code {
+    private DotNetObjectReference<JsToDotNetBridge> jsToDotNetBridgeReference;
+    CustomValidator custVal;
+
+    PlayerExtension player = new PlayerExtension();
+    IEnumerable<Country> countries = new List<Country>();
+    IEnumerable<int> years = Enumerable.Range(DateTime.Today.Year - 50, 50);
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) {
+            jsToDotNetBridgeReference = DotNetObjectReference.Create(new JsToDotNetBridge(this));
+            JS.InvokeVoidAsync("blazorInterop.setDotNetReference", jsToDotNetBridgeReference);
+
+            CountryServices.getCountries()
+                .ContinueWith(result =>
+                {
+                    countries = result.Result;
+                });
+
+        }
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    public void Dispose()
+    {
+        jsToDotNetBridgeReference?.Dispose();
+    }
+
+
+    // class embedded for demo purposes, move this class out of your razor component
+    public class JsToDotNetBridge
+    {
+        PlayerEdit _this;
+
+        public JsToDotNetBridge(PlayerEdit playerEdit)
+        {
+            this._this = playerEdit;
+        }
+
+        [JSInvokable]
+        public async Task<Player> LoadPlayer(long id)
+        {
+            Player player = await _this.PlayerServices.getPlayer(id);
+            _this.player = new PlayerExtension(player);
+            _this.StateHasChanged();
+            return _this.player;
+        }
+
+        [JSInvokable]
+        public string GetBase64SetMethodName()
+        {
+            return "SetPhoto";
+        }
+
+        [JSInvokable]
+        public void SetPhoto(string photoBase64)
+        {
+            _this.player.Photo = Convert.FromBase64String(photoBase64);
+            _this.StateHasChanged();
+        }
+    }
+
+    private async void HandleValidSubmit()
+    {
+        Debug.WriteLine("ValidSubmit");
+        try {
+            await PlayerServices.updatePlayer(player);
+            await JS.InvokeVoidAsync("blazorInterop.closeAndRefresh", null);
+        }
+        catch (Exception e) {
+            custVal.ClearErrors();
+            string errorMessage = e.Message;
+            if (typeof(ApiException).IsInstanceOfType(e)) {
+                var apiException = (ApiException) e;
+                errorMessage = apiException.ErrorContent.ToString().Replace("\"", "");
+            }
+
+            custVal.AddError("Id", errorMessage);
+            custVal.DisplayErrors();
+        }
+
+    }
+
+}

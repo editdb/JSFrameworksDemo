@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisPostgresWebApiIntegTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisSwGenClient", "TennisSwGenClient\TennisSwGenClient.csproj", "{3E86A109-7A49-4F70-9DC8-B5A7DB01D499}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TennisMvcClient", "TennisMvcClient\TennisMvcClient.csproj", "{C4E5CBFB-0487-435E-A8D9-925B98E85FC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisMvcClient", "TennisMvcClient\TennisMvcClient.csproj", "{C4E5CBFB-0487-435E-A8D9-925B98E85FC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

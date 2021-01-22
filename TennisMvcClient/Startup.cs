@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TennisMvcClient.Services;
 
 namespace TennisMvcClient
 {
@@ -22,7 +23,13 @@ namespace TennisMvcClient
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
             services.AddControllersWithViews();
+
+            services.AddTransient<CountryServices>();
+            services.AddTransient<PlayerServices>();
+            services.AddTransient<RankingServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +52,8 @@ namespace TennisMvcClient
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=PlayerList}/{action=Index}/{id?}");
+
+                endpoints.MapBlazorHub();
             });
         }
     }

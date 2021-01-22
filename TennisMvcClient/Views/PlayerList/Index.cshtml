@@ -1,4 +1,6 @@
-﻿<div id="mainContainer">
+﻿@using TennisMvcClient.Components
+
+<div id="mainContainer">
     <div class="row">
         <h5 class="col-md-6">
             Player List
@@ -24,18 +26,20 @@
     </div>
 </div>
 
+@(await Html.RenderComponentAsync<PlayerEdit>(RenderMode.ServerPrerendered))
+
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" />
 <style>
     td {
-        padding-top: 4px !important;
-        padding-bottom: 4px !important;
+        padding-top: 3px !important;
+        padding-bottom: 3px !important;
     }
 </style>
-<script src="https://code.jquery.com/jquery-1.7.1.min.js" integrity="sha256-iBcUE/x23aI6syuqF7EeT/+JFBxjPs5zeFJEXxumwb0=" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
 <script>
 
+    // n.b. this is legacy "dataTable" rather than the current "DataTable" which has a more complex json response
     var oTable = $('#tbl').dataTable({
         "bServerSide": true,
         "sAjaxSource": "/PlayerList/GetPlayerList",
@@ -47,7 +51,48 @@
             { "mData": "HomeTown" },
             { "mData": "Handed", "className": "dt-center" },
             { "mData": o => o.Dob == null ? "" : o.Dob.substr(8, 2) + "/" + o.Dob.substr(5, 2) + "/" + o.Dob.substr(0, 4) },
-            { "mData": o => "<a href='javascript:alert(\"Player Edit to come\")' class='btn btn-sm btn-info'><i class='fa fa-pencil fa-1'></i></a>", "className": "dt-center" }
+            { "mData": o => "<a href='#' onclick='blazorInterop.loadPlayerData(" + o.Id + ")' class='btn btn-sm btn-info' data-toggle='modal' data-target='#modalPlayerEdit' title='Edit Player'><i class='fa fa-user-o fa-1'></i></a>", "className": "dt-center" }
         ],
     });
-</script>  
+</script>
+
+<script>
+    window.blazorInterop = {
+        dotNetReference: null,
+        setDotNetReference: function (dotNetReference) {
+            console.log("dotNetReference=" + dotNetReference);
+            this.dotNetReference = dotNetReference;
+        },
+        closeAndRefresh: function () {
+            console.log("closeAndRefresh");
+            $("#modalPlayerEdit").modal('hide');
+
+            $.toast({
+                title: "Data Update",
+                subtitle: "info",
+                content: "Successful",
+                type: "success",
+                delay: 3000
+            });
+
+            oTable.fnDraw(false);  // false retains page number
+        },
+        loadPlayerData: function (id) {
+            this.dotNetReference.invokeMethodAsync("LoadPlayer", id)
+                //              .then(result => {
+                //                  console.log(result);
+                //              })
+                ;
+        }
+    };
+
+</script>
+
+<link rel="stylesheet" href="./css/toast.css" />
+<script src="./js/toast.js"></script>
+
+<!-- Photo drag & drop functionality for PlayerEdit.razor -->
+<link rel="stylesheet" href="./css/dragdrop.css" />
+<script src="./js/dragdrop.js"></script>
+
+<script src="_framework/blazor.server.js"></script>

@@ -1,0 +1,213 @@
+﻿@implements IDisposable
+@using Microsoft.AspNetCore.Components.Web
+@using System.Diagnostics
+@using TennisMvcClient.Models
+@using TennisMvcClient.ModelExtensions
+@using CoreApi.Client.Sdk.Model
+@using CoreApi.Client.Sdk.Client
+@using Microsoft.JSInterop
+@using Microsoft.AspNetCore.Components.Forms
+
+@using TennisMvcClient.Services
+@inject CountryServices CountryServices
+@inject PlayerServices PlayerServices
+@inject RankingServices RankingServices
+@inject IJSRuntime JS
+<!-- Modal -->
+<div id="modalRankingEdit" class="modal fade" role="dialog">
+    <EditForm Model="@ranking" OnValidSubmit="@HandleValidSubmit" @attributes='new Dictionary<string, object> { { "autocomplete", "off" } } '>
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Ranking Edit</h4>
+                    <button type="submit" class="btn btn-success button-right">Save</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+                <div class="modal-body">
+                    <DataAnnotationsValidator />
+                    <CustomValidator @ref="custVal" />
+                    <!-- ValidationSummary / -->
+                    <!-- Put any general error messages against the Id field -->
+                    <div class="alert alert-danger" role="alert"><ValidationMessage For="@(() => ranking.Id)" class="alert alert-danger" /></div>
+
+                    <h5>@playerName @ranking.Year</h5>
+
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="HeightFeet">Points</label>
+                            <InputNumber id="HeightFeet" @bind-Value="ranking.Points" @attributes='new Dictionary<string, object> { { "min", 0 } } ' class="form-control" />
+                            <ValidationMessage For="@(() => ranking.Points)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="HeightInches">Prize money</label>
+                            <InputNumber id="HeightInches" @bind-Value="ranking.PrizeMoney" @attributes='new Dictionary<string, object> { { "min", 0 } } ' class="form-control" />
+                            <ValidationMessage For="@(() => ranking.PrizeMoney)" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="HeightFeet">Singles titles</label>
+                            <InputNumber id="HeightFeet" @bind-Value="ranking.SinglesTitles" @attributes='new Dictionary<string, object> { { "min", 0 } } ' class="form-control" />
+                            <ValidationMessage For="@(() => ranking.SinglesTitles)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="HeightInches">Doubles titles</label>
+                            <InputNumber id="HeightInches" @bind-Value="ranking.DoublesTitles" @attributes='new Dictionary<string, object> { { "min", 0 } } ' class="form-control" />
+                            <ValidationMessage For="@(() => ranking.DoublesTitles)" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="HeightFeet">Singles wins</label>
+                            <InputNumber id="HeightFeet" @bind-Value="ranking.SinglesWin" @attributes='new Dictionary<string, object> { { "min", 0 } } ' class="form-control" />
+                            <ValidationMessage For="@(() => ranking.SinglesWin)" />
+                        </div>
+                        <div class="form-group col">
+                            <label for="HeightInches">Singles losses</label>
+                            <InputNumber id="HeightInches" @bind-Value="ranking.SinglesLoss" @attributes='new Dictionary<string, object> { { "min", 0 } } ' class="form-control" />
+                            <ValidationMessage For="@(() => ranking.SinglesLoss)" />
+                        </div>
+                    </div>
+
+                </div> <!--modal-body-->
+                <!--
+                <div class="modal-footer">
+                </div>
+                -->
+
+                </div> <!--"modal-content-->
+        </div> <!--modal-dialog-->
+    </EditForm>
+</div>
+
+<style>
+    .btn-success, .btn-danger {
+        width: 4.0rem;
+    }
+    .button-right {
+        float: right;
+        margin: 0rem 0.3rem 0rem auto;
+    }
+
+    .alert {
+        padding-top: 0.25rem;
+        padding-right: 1.25rem;
+        padding-bottom: 0.45rem;
+        padding-left: 1.25rem;
+    }
+    .alert-danger {
+        display: block;
+    }
+
+    .alert-danger:empty {
+        display: none;
+    }
+
+    .form-row {
+        line-height: 1.0;
+    }
+
+    .form-control {
+        padding-top: 0.175rem;
+        padding-bottom: 0.175rem;
+        height: auto;
+    }
+
+    label {
+        margin-bottom: .2rem;
+        font-size: 80%;
+    }
+
+    .modified.invalid {
+        border-color: #dc3545;
+    }
+
+    .valid {
+        border-color: #28a745;
+    }
+
+    .validation-message {
+        width: 100%;
+        margin-top: .25rem;
+        font-size: 80%;
+        color: #dc3545;
+    }
+</style>
+
+@code {
+    private DotNetObjectReference<JsToDotNetBridge> jsToDotNetBridgeReference;
+    CustomValidator custVal;
+
+    RankingExtension ranking = new RankingExtension();
+    string playerName;
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) {
+            jsToDotNetBridgeReference = DotNetObjectReference.Create(new JsToDotNetBridge(this));
+            JS.InvokeVoidAsync("blazorInterop.setDotNetReference", jsToDotNetBridgeReference);
+
+        }
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    public void Dispose()
+    {
+        jsToDotNetBridgeReference?.Dispose();
+    }
+
+
+    // class embedded for demo purposes, move this class out of your razor component
+    public class JsToDotNetBridge
+    {
+        RankingEdit _this;
+
+        public JsToDotNetBridge(RankingEdit rankingEdit)
+        {
+            this._this = rankingEdit;
+        }
+
+        [JSInvokable]
+        public async Task<Ranking> LoadRanking(long id)
+        {
+            Ranking ranking = await _this.RankingServices.getRanking(id);
+            _this.ranking = new RankingExtension(ranking);
+
+            await _this.PlayerServices.getPlayerName(ranking.PlayerId.Value)
+                .ContinueWith(result =>
+                {
+                    _this.playerName = result.Result;
+                });
+
+
+            _this.StateHasChanged();
+            return _this.ranking;
+        }
+    }
+
+    private async void HandleValidSubmit()
+    {
+        Debug.WriteLine("ValidSubmit");
+        try {
+            await RankingServices.updateRanking(ranking);
+            await JS.InvokeVoidAsync("blazorInterop.closeAndRefresh", null);
+        }
+        catch (Exception e) {
+            custVal.ClearErrors();
+            string errorMessage = e.Message;
+            if (typeof(ApiException).IsInstanceOfType(e)) {
+                var apiException = (ApiException) e;
+                errorMessage = apiException.ErrorContent.ToString().Replace("\"", "");
+            }
+
+            custVal.AddError("Id", errorMessage);
+            custVal.DisplayErrors();
+        }
+
+    }
+
+}

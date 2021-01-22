@@ -1,47 +1,51 @@
-﻿@model RankingListModel
+﻿@using TennisMvcClient.Components
+
+@model RankingListModel
 <div id="mainContainer">
     @using (Html.BeginForm("Index", "RankingList")) {
-    <div class="row">
-        <h5 class="col-md-2">
-            Ranking List
-        </h5>
-        <div class="col-md-10">
-            @Html.LabelFor(m => m.selectGender, "Competition")
-            @Html.DropDownListFor(m => m.selectGender, Model.genders, null, new { onchange = "this.form.submit();" })
-            &nbsp;
-            @Html.LabelFor(m => m.selectYear, "Year")
-            @Html.DropDownListFor(m => m.selectYear, Model.years, null, new { onchange = "this.form.submit();" })
+        <div class="row">
+            <h5 class="col-md-2">
+                Ranking List
+            </h5>
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.selectGender, "Competition")
+                @Html.DropDownListFor(m => m.selectGender, Model.genders, null, new { onchange = "this.form.submit();" })
+                &nbsp;
+                @Html.LabelFor(m => m.selectYear, "Year")
+                @Html.DropDownListFor(m => m.selectYear, Model.years, null, new { onchange = "this.form.submit();" })
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <table id="tbl" class="stripe ">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Player</th>
-                        <th>Country</th>
-                        <th>Points</th>
-                        <th>Prize Money</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
+        <div class="row">
+            <div class="col-md-12">
+                <table id="tbl" class="stripe ">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Country</th>
+                            <th>Points</th>
+                            <th>Prize Money</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
 
-            </table>
+                </table>
+            </div>
         </div>
-    </div>
     }
 </div>
+
+@(await Html.RenderComponentAsync<RankingEdit>(RenderMode.ServerPrerendered))
+@(await Html.RenderComponentAsync<PlayerEdit>(RenderMode.ServerPrerendered))
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" />
 <style>
     td {
-        padding-top: 4px !important;
-        padding-bottom: 4px !important;
+        padding-top: 3px !important;
+        padding-bottom: 3px !important;
     }
 </style>
-<script src="https://code.jquery.com/jquery-1.7.1.min.js" integrity="sha256-iBcUE/x23aI6syuqF7EeT/+JFBxjPs5zeFJEXxumwb0=" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
 <script>
     const currencyFormatter = new Intl.NumberFormat('en-US', {
@@ -60,7 +64,51 @@
             { "mData": o => "<img src='" + o.CountryImageLink + "' alt='" + o.CountryName + "' title='" + o.CountryName + "' />", "className": "dt-center" },
             { "mData": "Points" },
             { "mData": o => currencyFormatter.format(o.PrizeMoney) },
-            { "mData": o => "<a href='javascript:alert(\"Ranking Edit to come\")' class='btn btn-sm btn-info'><i class='fa fa-pencil fa-1'></i></a>", "className": "dt-center" }
+            {
+                "mData": o => "<a href='#' onclick='blazorInterop.loadRankingData(" + o.Id + ")'      class='btn btn-sm btn-info' data-toggle='modal' data-target='#modalRankingEdit' title='Edit Ranking'><i class='fa fa-trophy fa-1'></i></a>" +
+                             " <a href='#' onclick='blazorInterop.loadPlayerData(" + o.PlayerId + ")' class='btn btn-sm btn-info' data-toggle='modal' data-target='#modalPlayerEdit'  title='Edit Player' ><i class='fa fa-user-o fa-1'></i></a>", "className": "dt-center"
+            }
         ],
     });
-</script>  
+</script>
+
+<script>
+    window.blazorInterop = {
+        dotNetReference: null,
+        setDotNetReference: function (dotNetReference) {
+            console.log("dotNetReference=" + dotNetReference);
+            this.dotNetReference = dotNetReference;
+        },
+        closeAndRefresh: function () {
+            console.log("closeAndRefresh");
+            $("#modalRankingEdit").modal('hide');
+            $("#modalPlayerEdit").modal('hide');
+
+            $.toast({
+                title: "Data Update",
+                subtitle: "info",
+                content: "Successful",
+                type: "success",
+                delay: 3000
+            });
+
+            oTable.fnDraw(false);  // false retains page number
+        },
+        loadRankingData: function (id) {
+            this.dotNetReference.invokeMethodAsync("LoadRanking", id);
+        },
+        loadPlayerData: function (id) {
+            this.dotNetReference.invokeMethodAsync("LoadPlayer", id);
+        }
+    };
+
+</script>
+
+<link rel="stylesheet" href="./css/toast.css" />
+<script src="./js/toast.js"></script>
+
+<!-- Photo drag & drop functionality for PlayerEdit.razor -->
+<link rel="stylesheet" href="./css/dragdrop.css" />
+<script src="./js/dragdrop.js"></script>
+
+<script src="_framework/blazor.server.js"></script>
