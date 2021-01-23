@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisPostgresGraphQLCSharp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisPostgresWebApiIntegTest", "TennisPostgresWebApiIntegTest\TennisPostgresWebApiIntegTest.csproj", "{FAAEFA68-8D21-47F0-BC48-BC3479114437}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisSwGenClient", "TennisSwGenClient\TennisSwGenClient.csproj", "{3E86A109-7A49-4F70-9DC8-B5A7DB01D499}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisMvcClient", "TennisMvcClient\TennisMvcClient.csproj", "{C4E5CBFB-0487-435E-A8D9-925B98E85FC4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisSwGenClient", "TennisMvcClient\TennisSwGenClient\TennisSwGenClient.csproj", "{CC4BA4A7-2D8A-424B-A777-8EC022AD7276}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +37,14 @@ Global
 		{FAAEFA68-8D21-47F0-BC48-BC3479114437}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAAEFA68-8D21-47F0-BC48-BC3479114437}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAAEFA68-8D21-47F0-BC48-BC3479114437}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3E86A109-7A49-4F70-9DC8-B5A7DB01D499}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E86A109-7A49-4F70-9DC8-B5A7DB01D499}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3E86A109-7A49-4F70-9DC8-B5A7DB01D499}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3E86A109-7A49-4F70-9DC8-B5A7DB01D499}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C4E5CBFB-0487-435E-A8D9-925B98E85FC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C4E5CBFB-0487-435E-A8D9-925B98E85FC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4E5CBFB-0487-435E-A8D9-925B98E85FC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4E5CBFB-0487-435E-A8D9-925B98E85FC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC4BA4A7-2D8A-424B-A777-8EC022AD7276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC4BA4A7-2D8A-424B-A777-8EC022AD7276}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC4BA4A7-2D8A-424B-A777-8EC022AD7276}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC4BA4A7-2D8A-424B-A777-8EC022AD7276}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

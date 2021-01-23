@@ -22,6 +22,9 @@ namespace TennisMvcClient.Services
             this._appConfig = appConfig;
             this.config = new Configuration();
             this.config.BasePath = _appConfig.GetValue<string>("BasePath");
+            if (this.config.BasePath.EndsWith("/api")) {
+                this.config.BasePath = this.config.BasePath.Substring(0, this.config.BasePath.LastIndexOf("/api"));
+            }
             this.capi = new CountriesApi(this.config);
             this.papi = new PlayersApi(this.config);
             this.rapi = new RankingsApi(this.config);

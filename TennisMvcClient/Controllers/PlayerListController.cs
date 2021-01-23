@@ -26,6 +26,10 @@ namespace TennisMvcClient.Controllers
         {
             Configuration config = new Configuration();
             config.BasePath = _config.GetValue<string>("BasePath");
+            if (config.BasePath.EndsWith("/api")) {
+                config.BasePath = config.BasePath.Substring(0, config.BasePath.LastIndexOf("/api"));
+            }
+
             PlayersApi papi = new PlayersApi(config);
             var records = papi.ApiPlayersWithCountryGet();
 

@@ -6,9 +6,11 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["TennisMvcClient/TennisMvcClient.csproj", "TennisMvcClient/"]
+COPY ["TennisMvcClient.csproj", "TennisMvcClient/"]
+COPY ["TennisSwGenClient/TennisSwGenClient.csproj", "TennisMvcClient/TennisSwGenClient/"]
+RUN dotnet restore "TennisMvcClient/TennisSwGenClient/TennisSwGenClient.csproj"
 RUN dotnet restore "TennisMvcClient/TennisMvcClient.csproj"
-COPY . .
+COPY . TennisMvcClient/.
 WORKDIR "/src/TennisMvcClient"
 RUN dotnet build "TennisMvcClient.csproj" -c Release -o /app/build
 

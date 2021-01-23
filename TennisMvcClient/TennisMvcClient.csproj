@@ -7,13 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TennisSwGenClient\**" />
+    <Content Remove="TennisSwGenClient\**" />
+    <EmbeddedResource Remove="TennisSwGenClient\**" />
+    <None Remove="TennisSwGenClient\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.11" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TennisSwGenClient\TennisSwGenClient.csproj" />
+    <ProjectReference Include="TennisSwGenClient\TennisSwGenClient.csproj" />
   </ItemGroup>
 
 </Project>

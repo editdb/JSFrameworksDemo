@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+  tennis-postgres-db:
+    image: postgres:11.1
+    ports:
+      - "4001:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: on-failure:3
+
+  tennis-postgres-webapi-csharp:
+    build:
+      context: ./TennisPostgresWebApiCSharp
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=tennis-postgres-db;Port=5432;Database=postgres;User Id=postgres;Password=;
+    ports:
+      - "53316:80"
+    depends_on:
+      - tennis-postgres-db
+    restart: on-failure:3
+
+  tennis-blazor:
+    build:
+      context: ./TennisMvcClient
+    environment:
+      - BasePath= ${VUE_APP_WEBAPI_URL}
+    ports:
+      - "5000:80"
+    depends_on:
+      - tennis-postgres-webapi-csharp
+    restart: on-failure:3
+
+volumes:
+  postgres-data:
+    driver: local
