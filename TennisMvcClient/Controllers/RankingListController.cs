@@ -8,15 +8,20 @@ using TennisMvcClient.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 
 namespace TennisMvcClient.Controllers
 {
     public class RankingListController : Controller
     {
         private IConfiguration _config;
-        public RankingListController(IConfiguration config) : base()
+        private ILogger<DebugLoggerProvider> _loggerDebug;
+
+        public RankingListController(IConfiguration config, ILogger<DebugLoggerProvider> loggerDebug) : base()
         {
             _config = config;
+            _loggerDebug = loggerDebug;
         }
 
         public IActionResult Index(RankingListModel model)
@@ -48,6 +53,8 @@ namespace TennisMvcClient.Controllers
         {
             Configuration config = new Configuration();
             config.BasePath = _config.GetValue<string>("BasePath");
+            _loggerDebug.Log(LogLevel.Information , "config.BasePath={Value}", config.BasePath);
+
             RankingsApi rapi = new RankingsApi(config);
             var records = rapi.ApiRankingsListYearGenderGet(year, gender);
 

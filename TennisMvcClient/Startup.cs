@@ -51,7 +51,7 @@ namespace TennisMvcClient
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=PlayerList}/{action=Index}/{id?}");
+                    pattern: "{controller=RankingList}/{action=Index}/{id?}");
 
                 endpoints.MapBlazorHub();
             });

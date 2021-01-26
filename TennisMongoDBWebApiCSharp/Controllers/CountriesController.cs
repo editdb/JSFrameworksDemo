@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.Linq;
+
 using TennisMongoDB.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,28 +18,29 @@ namespace TennisMongoDB.Controllers
     [ApiController]
     public class CountriesController : ControllerBase
     {
-        ITennisDatabaseSettings _settings;
-        private readonly IMongoCollection<BsonDocument> _countries;
+        TennisDatabaseContext _context;
 
-        public CountriesController(ITennisDatabaseSettings settings) : base()
+
+        public CountriesController(TennisDatabaseContext context) : base()
         {
-            this._settings = settings;
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
-
-            _countries = database.GetCollection<BsonDocument>(settings.CountriesCollectionName);
+            _context = context;
         }
 
         // GET: api/<CountriesController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<string>>> Get()
+        public async Task<ActionResult<IEnumerable<Object>>> Get()
         {
-            List<BsonDocument> countries = await _countries.Find(Builders<BsonDocument>.Filter.Empty).ToListAsync();
-            foreach(BsonDocument doc in countries) {
-                doc.InsertAt(0, new BsonElement("Id", doc["_id"]));
-                doc.Remove("_id");
-            }
-            return Ok(countries.ToJson());
+            var q =
+            from c in _context.countries.AsQueryable()
+            orderby c["Name"]
+            select new
+            {
+                Id = (long)c["_id"],
+                Code = (string)c["Code"],
+                Name = (string)c["Name"],
+                ImageLink = (string)c["ImageLink"]
+            };
+            return await q.ToListAsync();
         }
     }
 }

@@ -74,10 +74,15 @@
 
 <script>
     window.blazorInterop = {
-        dotNetReference: null,
-        setDotNetReference: function (dotNetReference) {
-            console.log("dotNetReference=" + dotNetReference);
-            this.dotNetReference = dotNetReference;
+        dotNetReferencePlayer: null,
+        dotNetReferenceRanking: null,
+        setDotNetReferencePlayer: function (dotNetReferencePlayer) {
+            console.log("dotNetReference=Player" + dotNetReferencePlayer);
+            this.dotNetReferencePlayer = dotNetReferencePlayer;
+        },
+        setDotNetReferenceRanking: function (dotNetReferenceRanking) {
+            console.log("dotNetReferenceRanking=" + dotNetReferenceRanking);
+            this.dotNetReferenceRanking = dotNetReferenceRanking;
         },
         closeAndRefresh: function () {
             console.log("closeAndRefresh");
@@ -95,10 +100,10 @@
             oTable.fnDraw(false);  // false retains page number
         },
         loadRankingData: function (id) {
-            this.dotNetReference.invokeMethodAsync("LoadRanking", id);
+            this.dotNetReferenceRanking.invokeMethodAsync("LoadRanking", id);
         },
         loadPlayerData: function (id) {
-            this.dotNetReference.invokeMethodAsync("LoadPlayer", id);
+            this.dotNetReferencePlayer.invokeMethodAsync("LoadPlayer", id);
         }
     };
 

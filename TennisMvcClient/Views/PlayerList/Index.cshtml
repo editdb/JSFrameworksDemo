@@ -58,10 +58,10 @@
 
 <script>
     window.blazorInterop = {
-        dotNetReference: null,
-        setDotNetReference: function (dotNetReference) {
-            console.log("dotNetReference=" + dotNetReference);
-            this.dotNetReference = dotNetReference;
+        dotNetReferencePlayer: null,
+        setDotNetReferencePlayer: function (dotNetReferencePlayer) {
+            console.log("dotNetReferencePlayer=" + dotNetReferencePlayer);
+            this.dotNetReferencePlayer = dotNetReferencePlayer;
         },
         closeAndRefresh: function () {
             console.log("closeAndRefresh");
@@ -78,7 +78,7 @@
             oTable.fnDraw(false);  // false retains page number
         },
         loadPlayerData: function (id) {
-            this.dotNetReference.invokeMethodAsync("LoadPlayer", id)
+            this.dotNetReferencePlayer.invokeMethodAsync("LoadPlayer", id)
                 //              .then(result => {
                 //                  console.log(result);
                 //              })

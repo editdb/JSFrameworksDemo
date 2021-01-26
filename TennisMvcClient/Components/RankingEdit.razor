@@ -149,7 +149,7 @@
     {
         if (firstRender) {
             jsToDotNetBridgeReference = DotNetObjectReference.Create(new JsToDotNetBridge(this));
-            JS.InvokeVoidAsync("blazorInterop.setDotNetReference", jsToDotNetBridgeReference);
+            JS.InvokeVoidAsync("blazorInterop.setDotNetReferenceRanking", jsToDotNetBridgeReference);
 
         }
         return base.OnAfterRenderAsync(firstRender);

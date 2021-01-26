@@ -26,8 +26,8 @@ namespace TennisMongoDB.Controllers
         }
 
         [HttpGet]
-        [Route("/api/rankingsList/{year}/{gender}")]
-        public async Task<ActionResult<IEnumerable<string>>> GetRankingsList(int year, char gender)
+        [Route("/api/rankingsListv2/{year}/{gender}")]
+        public async Task<ActionResult<IEnumerable<string>>> GetRankingsListv2(int year, char gender)
         {
             var filterYear = Builders<BsonDocument>.Filter.Eq("Year", year);
             var filterGender = Builders<BsonDocument>.Filter.Eq("Player.Gender", gender.ToString());
@@ -73,8 +73,8 @@ namespace TennisMongoDB.Controllers
         }
 
         [HttpGet]
-        [Route("/api/rankingsListv2/{year}/{gender}")]
-        public async Task<ActionResult<IEnumerable<object>>> GetRankingsListv2(int year, char gender)
+        [Route("/api/rankingsList/{year}/{gender}")]
+        public async Task<ActionResult<IEnumerable<object>>> GetRankingsList(int year, char gender)
         {
             var q =
             from r in _context.rankings.AsQueryable()

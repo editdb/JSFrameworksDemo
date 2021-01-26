@@ -3,7 +3,7 @@
 ### This repo provides Postres and MongoDB databases along with C# WebApi endpoints to access them. In addition there is a GraphQL endpoint which provides access to the Postgres data.
 
 ---
-### Angular 10, Vue.js, ReactJS and Blazor front-end projects are included to provide end-user access to the Postres \[[here](#Running-Angular-and-Vue-via-WebApi-to-Postgres)\]
+### Angular 10, Vue.js, ReactJS and Blazor front-end projects are included to provide end-user access to the Postres \[[here](#Running-Angular-Vue-and-Blazor-via-WebApi-to-Postgres)\]
 ### and MongoDB data via the endpoints \[[here](#Running-Angular-via-WebApi-to-MongoDB)\].
 ---
 ### Another Angular 10 project accesses the Postgres database via a C# GraphQL endpoint \[[here](#Running-Angular-via-GraphQL-to-Postgres)\].
@@ -19,7 +19,7 @@ The database contains three tables (or collections in Mongo parlance). These tab
 The UI lists the players and allows their attributes to be changed and a player image to be uploaded. It also list the players' rankings given a selected gender and year, and allows the ranking to be edited. If a player's points are amended such that their rank should be changed, then the player's rank is re-calculated and their position in the list changes.
 
 ---
-### Running Angular, Vue and React via WebApi to Postgres
+### Running Angular Vue and Blazor via WebApi to Postgres
 The Postgres database, C# WebApi, and Angular, Vue and React applications can be started using the following Docker command. Data tables containing initial records are created or ensured during the startup process.
 ```
 docker-compose -f .\docker-compose-all-postgres.yml up -d
@@ -36,11 +36,16 @@ Access the React.js application using this url
 http://localhost:3000
 
 
+Access the Blazor/MVC Razor application using this url 
+http://localhost:5000
+
+
 |Folder |Purpose|
 | -------- | -------- |
 |**Angular** |The Angular 10 project|
 |**vuejs** |The Vue.js project|
 |**reactjs** |The Reactjs project|
+|**TennisMvcClient** |The Blazor/MVC Razor project|
 |**TennisPostgresWebApiCSharp** |The C# WebApi project which accesses a Postgres database|
 
 

@@ -54,6 +54,18 @@ services:
       VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
     depends_on:
       - tennis-mongo-webapi-csharp
+
+  tennis-blazor:
+    build:
+      context: ./TennisMvcClient
+    environment:
+      - BasePath=http://tennis-mongo-webapi-csharp:80
+      - Logging__LogLevel__Microsoft=Information
+      - DetailedErrors=true
+    ports:
+      - "5000:80"
+    depends_on:
+      - tennis-mongo-webapi-csharp
   
 
 volumes:

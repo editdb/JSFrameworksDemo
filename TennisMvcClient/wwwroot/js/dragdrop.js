@@ -1,8 +1,8 @@
 ﻿function setBlazorBase64Data(base64Data) {
-    blazorInterop.dotNetReference.invokeMethodAsync("GetBase64SetMethodName")
+    blazorInterop.dotNetReferencePlayer.invokeMethodAsync("GetBase64SetMethodName")
         .then(response => {
             let methodName = response;  // e.g "SetPhoto"
-            blazorInterop.dotNetReference.invokeMethodAsync(methodName, base64Data);
+            blazorInterop.dotNetReferencePlayer.invokeMethodAsync(methodName, base64Data);
         });
 }
 

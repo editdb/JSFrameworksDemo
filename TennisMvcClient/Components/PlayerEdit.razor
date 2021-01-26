@@ -200,7 +200,7 @@
     {
         if (firstRender) {
             jsToDotNetBridgeReference = DotNetObjectReference.Create(new JsToDotNetBridge(this));
-            JS.InvokeVoidAsync("blazorInterop.setDotNetReference", jsToDotNetBridgeReference);
+            JS.InvokeVoidAsync("blazorInterop.setDotNetReferencePlayer", jsToDotNetBridgeReference);
 
             CountryServices.getCountries()
                 .ContinueWith(result =>
