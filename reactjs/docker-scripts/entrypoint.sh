@@ -2,7 +2,7 @@
 
 # Replace env vars in JavaScript files
 echo "Replacing env vars in JS"
-for file in /usr/share/nginx/html/*.js;
+for file in /usr/share/nginx/html/static/js/*.js;
 do
   echo "Processing $file ...";
 
@@ -11,7 +11,7 @@ do
     cp $file $file.tmpl.js
   fi
 
-  envsubst '$VUE_APP_WEBAPI_URL,VUE_APP_XXXXX' < $file.tmpl.js > $file
+  envsubst '$VUE_APP_WEBAPI_URL,$VUE_APP_DATABASE_TYPE' < $file.tmpl.js > $file
 done
 
 echo "Starting Nginx"

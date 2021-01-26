@@ -5,7 +5,7 @@
       <md-button class="md-icon-button">
         <md-icon>more_vert</md-icon>
       </md-button>
-      <h2 class="md-title" style="flex: 1">Tennis Players (Vue.js to C# WebApi REST endpoint to Postgres)</h2>
+      <h2 class="md-title" style="flex: 1">Tennis Players (Vue.js &rarr; C# WebApi REST endpoint &rarr; {{this.databaseType}})</h2>
       <router-link to = "/rankingList" class="router-link">Rankings</router-link>
       <router-link to = "/playerList" class="router-link">Players</router-link>
     </md-toolbar>
@@ -19,9 +19,16 @@
 <script>
 //import RankingList from './components/RankingList.vue'
 import VueToastr from "vue-toastr";
+import Configuration from "./components/Configuration.js"
+
 
 export default {
   name: 'App',
+  data() { 
+    return {
+      databaseType: Configuration.value('databaseType')
+    };
+  },
   components: {
     //RankingList,
     "vue-toastr": VueToastr

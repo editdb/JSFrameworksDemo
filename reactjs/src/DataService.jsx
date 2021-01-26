@@ -1,6 +1,5 @@
 import Configuration from './Configuration';
 
-
 const rootUrl = (new Configuration()).value("webapiUrl");
 
 export const getYears = (body) => {

@@ -32,7 +32,8 @@ services:
     ports:
       - "8080:80"
     environment:
-      VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
+      - VUE_APP_WEBAPI_URL=${VUE_APP_WEBAPI_URL}
+      - VUE_APP_DATABASE_TYPE=Postgres
     depends_on:
       - tennis-postgres-webapi-csharp
 
@@ -42,7 +43,8 @@ services:
     ports:
       - "4200:80"
     environment:
-      VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
+      - VUE_APP_WEBAPI_URL=${VUE_APP_WEBAPI_URL}
+      - VUE_APP_DATABASE_TYPE=Postgres
     depends_on:
       - tennis-postgres-webapi-csharp
 
@@ -52,7 +54,8 @@ services:
     ports:
       - "3000:80"
     environment:
-      VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
+      - VUE_APP_WEBAPI_URL=${VUE_APP_WEBAPI_URL}
+      - VUE_APP_DATABASE_TYPE=Postgres
     depends_on:
       - tennis-postgres-webapi-csharp
 
@@ -60,6 +63,8 @@ services:
     build:
       context: ./TennisMvcClient
     environment:
+      - BasePath=http://tennis-postgres-webapi-csharp:80
+      - DatabaseType=Postgres
       - DetailedErrors=true
     ports:
       - "5000:80"

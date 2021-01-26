@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import Configuration from "../shared/Configuration.js";
 
 @Component({
   selector: 'app-header',
@@ -7,6 +8,8 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   ]
 })
 export class HeaderComponent implements OnInit {
+
+  readonly databaseType = Configuration.value("databaseType");
 
   @Output() public sidenavToggle = new EventEmitter();
   

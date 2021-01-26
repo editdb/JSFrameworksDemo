@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
+import Configuration from './Configuration';
 import PlayerList from './PlayerList';
 import RankingList from './RankingList';
 import { ToastContainer } from 'react-toastify';
@@ -16,6 +17,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
 
+const databaseType = (new Configuration()).value("databaseType");
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +54,7 @@ function App() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Tennis Players (React.js to C# WebApi REST endpoint to Postgres)
+              Tennis Players (React.js &rarr; C# WebApi REST endpoint &rarr; {databaseType}
             </Typography>
             <Button color="inherit"><Link to="/rankingList" className={classes.link}>Rankings</Link></Button>
             <Button color="inherit"><Link to="/playerList" className={classes.link}>Players</Link></Button>

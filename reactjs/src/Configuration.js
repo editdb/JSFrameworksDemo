@@ -3,7 +3,8 @@ import  { environment } from './environments/environment';
 export default function Configuration() {
   const CONFIG = () => {
     return {
-      webapiUrl: '$VUE_APP_WEBAPI_URL'
+      webapiUrl: '$VUE_APP_WEBAPI_URL',
+      databaseType: '$VUE_APP_DATABASE_TYPE'
     }
   }
 
@@ -26,7 +27,7 @@ export default function Configuration() {
       // Get current value from environment
       const envName = val.substr(1)
       const envValue = environment[name]
-      //console.log("name=" + name + ", environment[name]=" + environment[name]);
+      console.log("name=" + name + ", environment[name]=" + environment[name]);
       if (envValue) {
         return envValue
       } else {

@@ -31,7 +31,8 @@ services:
     ports:
       - "8080:80"
     environment:
-      VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
+      - VUE_APP_WEBAPI_URL=${VUE_APP_WEBAPI_URL}
+      - VUE_APP_DATABASE_TYPE=MongoDB
     depends_on:
       - tennis-mongo-webapi-csharp
 
@@ -41,7 +42,8 @@ services:
     ports:
       - "4200:80"
     environment:
-      VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
+      - VUE_APP_WEBAPI_URL=${VUE_APP_WEBAPI_URL}
+      - VUE_APP_DATABASE_TYPE=MongoDB
     depends_on:
       - tennis-mongo-webapi-csharp
 
@@ -51,7 +53,8 @@ services:
     ports:
       - "3000:80"
     environment:
-      VUE_APP_WEBAPI_URL: ${VUE_APP_WEBAPI_URL}
+      - VUE_APP_WEBAPI_URL=${VUE_APP_WEBAPI_URL}
+      - VUE_APP_DATABASE_TYPE=MongoDB
     depends_on:
       - tennis-mongo-webapi-csharp
 
@@ -60,6 +63,7 @@ services:
       context: ./TennisMvcClient
     environment:
       - BasePath=http://tennis-mongo-webapi-csharp:80
+      - DatabaseType=MongoDB
       - Logging__LogLevel__Microsoft=Information
       - DetailedErrors=true
     ports:

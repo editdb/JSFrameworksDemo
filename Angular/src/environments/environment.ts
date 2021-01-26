@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  webapiUrl: 'http://localhost:53316/api'
+  webapiUrl: 'http://localhost:53316/api',
+  databaseType: '<DatabaseType>'
 };
 
 /*

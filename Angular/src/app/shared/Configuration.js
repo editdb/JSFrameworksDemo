@@ -3,7 +3,8 @@ import { environment } from 'src/environments/environment';
 export default class Configuration {
   static get CONFIG () {
     return {
-      webapiUrl: '$VUE_APP_WEBAPI_URL'
+      webapiUrl: '$VUE_APP_WEBAPI_URL',
+      databaseType: '$VUE_APP_DATABASE_TYPE'
     }
   }
 
