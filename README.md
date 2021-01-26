@@ -4,7 +4,7 @@
 
 ---
 ### Angular 10, Vue.js, ReactJS and Blazor front-end projects are included to provide end-user access to the Postres \[[here](#Running-Angular-Vue-and-Blazor-via-WebApi-to-Postgres)\]
-### and MongoDB data via the endpoints \[[here](#Running-Angular-via-WebApi-to-MongoDB)\].
+### and MongoDB data via the endpoints \[[here](#Running-Angular-Vue-and-Blazor-via-WebApi-to-MongoDB)\].
 ---
 ### Another Angular 10 project accesses the Postgres database via a C# GraphQL endpoint \[[here](#Running-Angular-via-GraphQL-to-Postgres)\].
 ---
@@ -49,7 +49,7 @@ http://localhost:5000
 |**TennisPostgresWebApiCSharp** |The C# WebApi project which accesses a Postgres database|
 
 
-### Running Angular via WebApi to MongoDB
+### Running Angular Vue and Blazor via WebApi to MongoDB
 
 MongoDB can be used instead of Postgres, coupled with a C# WebApi serving up the MongoDB database with an Angular front-end. This configuration can be started in Docker by 
 ```
@@ -65,6 +65,7 @@ Access the Angular application using the following url http://localhost:4200
 |**Angular** |The Angular 10 project|
 |**vuejs** |The Vue.js project|
 |**reactjs** |The Reactjs project|
+|**TennisMvcClient** |The Blazor/MVC Razor project|
 |**TennisMongoDBWebApiCSharp** |The C# WebApi project which accesses a MongoDB database|
 
 
@@ -101,8 +102,8 @@ docker-compose -f ./<filename> down
 ```
 |Filename|Purpose|
 |---|---|
-|docker-compose-all-postgres.yml|Postgres database, C# REST server, Angular, Vue.js and React.js front-ends|
-|docker-compose-all-mongo.yml|MongoDB databse, C# mongo-specific REST server, Angular, Vue.js and React.js front-ends|
+|docker-compose-all-postgres.yml|Postgres database, C# REST server, Angular, Vue.js, React.js and Blazor/MVC Razor front-ends|
+|docker-compose-all-mongo.yml|MongoDB database, C# mongo-specific REST server, Angular, Vue.js, React.js and Blazor/MVC Razor front-ends|
 |docker-compose-all-graphql.yml|Postgres database, C# GraphQL server, Angular front-end|
 |docker-compose-only-postgres.yml|Postgres database only |
 |docker-compose-only-mongo-db.yml|MongoDB database only |
