@@ -24,7 +24,7 @@ services:
     build:
       context: ./TennisMvcClient
     environment:
-      - BasePath= ${VUE_APP_WEBAPI_URL}
+      - BasePath= ${BLAZOR_TO_API_URL}
     ports:
       - "5000:80"
     depends_on:
