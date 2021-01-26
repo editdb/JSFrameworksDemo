@@ -6,15 +6,19 @@ using System.Text;
 using System.Linq;
 using TennisMvcClient.Models;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 
 namespace TennisMvcClient.Controllers
 {
     public class PlayerListController : Controller
     {
         private IConfiguration _config;
-        public PlayerListController(IConfiguration config) : base()
+        private ILogger<DebugLoggerProvider> _loggerDebug;
+        public PlayerListController(IConfiguration config, ILogger<DebugLoggerProvider> loggerDebug) : base()
         {
             _config = config;
+            _loggerDebug = loggerDebug;
         }
 
         public IActionResult Index()
@@ -29,6 +33,7 @@ namespace TennisMvcClient.Controllers
             if (config.BasePath.EndsWith("/api")) {
                 config.BasePath = config.BasePath.Substring(0, config.BasePath.LastIndexOf("/api"));
             }
+            _loggerDebug.Log(LogLevel.Warning , "config.BasePath={Value}", config.BasePath);
 
             PlayersApi papi = new PlayersApi(config);
             var records = papi.ApiPlayersWithCountryGet();
