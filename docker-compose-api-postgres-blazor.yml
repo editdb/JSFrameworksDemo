@@ -23,8 +23,6 @@ services:
   tennis-blazor:
     build:
       context: ./TennisMvcClient
-    environment:
-      - BasePath=${BLAZOR_TO_API_URL}
     ports:
       - "5000:80"
     depends_on:
