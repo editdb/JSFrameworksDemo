@@ -54,7 +54,7 @@ function App() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Tennis Players (React.js &rarr; C# WebApi REST endpoint &rarr; {databaseType}
+              Tennis Players (React.js &rarr; C# WebApi REST endpoint &rarr; {databaseType})
             </Typography>
             <Button color="inherit"><Link to="/rankingList" className={classes.link}>Rankings</Link></Button>
             <Button color="inherit"><Link to="/playerList" className={classes.link}>Players</Link></Button>
