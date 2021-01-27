@@ -59,6 +59,18 @@ docker-compose -f .\docker-compose-all-mongo.yml up -d
 Access the Angular application using the following url http://localhost:4200
 
 
+Access the Vue.js application using this url 
+http://localhost:8080
+
+
+Access the React.js application using this url 
+http://localhost:3000
+
+
+Access the Blazor/MVC Razor application using this url 
+http://localhost:5000
+
+
 
 |Folder |Purpose|
 | -------- | -------- |
@@ -126,6 +138,8 @@ In addition, prior to running any *docker-compose* commands, replace localhost w
 If running Vue natively by `npm run serve` then in the vuejs/.env file, change `localhost` to `192.168.99.100`
 
 If running Angular natively by `ng serve --o` then in the Angular/src/environments/environment.ts file, change `localhost` to `192.168.99.100` in the property named webapiUrl
+
+If running React natively by `npm start` then in the reactjs/src/environments/environment.ts file, change `localhost` to `192.168.99.100` in the property named webapiUrl
 
 
 ### Demonstrating Endpoints
