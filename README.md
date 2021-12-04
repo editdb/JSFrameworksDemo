@@ -42,9 +42,9 @@ http://localhost:5000
 
 |Folder |Purpose|
 | -------- | -------- |
-|**Angular** |The Angular 10 project|
-|**vuejs** |The Vue.js project. Client-side validation with Vuelidate. Charting with Chart.js.|
-|**reactjs** |The Reactjs project|
+|**Angular** |The Angular 10 project. <sub><sup>Client-side validation build-in using class names and manual logic.</sup></sub>|
+|**vuejs** |The Vue.js project. <sub><sup>Client-side validation with Vuelidate. Charting with Chart.js.</sup></sub>|
+|**reactjs** |The Reactjs project. <sub><sup>Client-side validation with React Material UI Form Validator.</sup></sub>|
 |**TennisMvcClient** |The Blazor/MVC Razor project|
 |**TennisPostgresWebApiCSharp** |The C# WebApi project which accesses a Postgres database|
 
@@ -74,9 +74,9 @@ http://localhost:5000
 
 |Folder |Purpose|
 | -------- | -------- |
-|**Angular** |The Angular 10 project|
-|**vuejs** |The Vue.js project. Client-side validation with Vuelidate. Charting with Chart.js.|
-|**reactjs** |The Reactjs project|
+|**Angular** |The Angular 10 project. <sub><sup>Client-side validation build-in using class names and manual logic.</sup></sub>|
+|**vuejs** |The Vue.js project. <sub><sup>Client-side validation with Vuelidate. Charting with Chart.js.</sup></sub>|
+|**reactjs** |The Reactjs project. <sub><sup>Client-side validation with React Material UI Form Validator.</sup></sub>|
 |**TennisMvcClient** |The Blazor/MVC Razor project|
 |**TennisMongoDBWebApiCSharp** |The C# WebApi project which accesses a MongoDB database|
 
