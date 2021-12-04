@@ -20,6 +20,11 @@
           </md-select>
         </md-field>
       </div>
+      <div class="md-layout-item smaller-width align-middle">  
+        <a href="#" @click="openChartPoints(); $event.preventDefault();">Chart Points</a>
+        <div style="display: inline-block; width: 15px;"> </div>
+        <a href="#" @click="openChartPrizeMoney(); $event.preventDefault();">Chart Prize Money</a>
+      </div>
     </div>
 
     <md-table v-model="rankingsList" md-card md-sort="Rank" md-sort-order="asc">
@@ -30,12 +35,13 @@
         <md-table-cell md-label="Points">{{ item.Points }}</md-table-cell>
         <md-table-cell md-label="Prize Money" md-sort-by="PrizeMoney">${{ item.PrizeMoney }}</md-table-cell>
         <md-table-cell md-label="Actions">
-          <a href="#" @click="openPlayerEditDialog(item.PlayerId); $event.preventDefault();">Edit Player</a>
+          <div style="display: inline-block"><a href="#" @click="openPlayerEditDialog(item.PlayerId); $event.preventDefault();">Edit Player</a></div>
           <div style="display: inline-block; width: 15px;"> </div> 
-          <a href="#" @click="openRankingEditDialog(item.Id); $event.preventDefault();">Edit Ranking</a>
+          <div style="display: inline-block"><a href="#" @click="openRankingEditDialog(item.Id); $event.preventDefault();">Edit Ranking</a></div>
         </md-table-cell>
       </md-table-row>
     </md-table>
+    <ranking-list-chart-dialog v-model="chartDialogOpen" :gender="selectedGender" :year="selectedYear" :type="chartType"></ranking-list-chart-dialog>
     <player-edit-dialog v-model="playerEditDialogOpen" :playerId="playerId"></player-edit-dialog>
     <ranking-edit-dialog v-model="rankingEditDialogOpen" :rankingId="rankingId"></ranking-edit-dialog>
 <!--
@@ -48,6 +54,7 @@
 
 <script>
 import DataMixin from "../mixins/data-mixin";
+import RankingListChartDialog from "./RankingListChartDialog";
 import PlayerEditDialog from "./PlayerEditDialog";
 import RankingEditDialog from "./RankingEditDialog";
 //import PlayerService from "../services/player-service";
@@ -58,6 +65,7 @@ import RankingEditDialog from "./RankingEditDialog";
 export default {
   name: 'RankingList',
   components: {
+    RankingListChartDialog,
     PlayerEditDialog,
     RankingEditDialog
   },
@@ -71,6 +79,8 @@ export default {
         {id: 'M', value: 'Men\'s'},
         {id: 'F', value: 'Women\'s'}
       ],
+      chartDialogOpen: false,
+      chartType: '',
       playerEditDialogOpen: false,
       playerId: 0,
       rankingEditDialogOpen: false,
@@ -80,6 +90,18 @@ export default {
   methods: {
     refreshList() {
       this.getRankingsList(this.selectedYear, this.selectedGender);
+    },
+    openChartPoints() {
+      this.chartType = "points";
+      //console.log("ChartPoints: gender=" + gender + ", year=" + year + ", this.chartType=" + this.chartType);
+      this.chartDialogOpen = false; // needed as need to trigger a change and sometimes value left at true
+      this.chartDialogOpen = true;
+    },
+    openChartPrizeMoney() {
+      this.chartType = "prizeMoney";
+      //console.log("ChartPrizeMoney: gender=" + gender + ", year=" + year + ", this.chartType=" + this.chartType);
+      this.chartDialogOpen = false; // needed as need to trigger a change and sometimes value left at true
+      this.chartDialogOpen = true;
     },
     openPlayerEditDialog(playerId) {
       console.log("playerId=" + playerId);
@@ -118,6 +140,11 @@ export default {
 
 .md-table-cell {
   text-align: left;
+}
+
+.align-middle {
+  display : flex;
+  align-items : center;
 }
 
 h3 {

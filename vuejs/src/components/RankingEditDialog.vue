@@ -144,7 +144,7 @@ export default {
 .md-dialog /deep/ .md-dialog-container {
   transform: none;
   width: 500px;
-  height: 320px;
+  height: 340px;
   padding-top: 0px;
   padding-left: 20px;
   padding-right: 20px;

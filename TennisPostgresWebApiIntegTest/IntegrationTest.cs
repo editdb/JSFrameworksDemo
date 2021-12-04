@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -59,6 +60,15 @@ namespace TennisPostgresWebApiIntegTest
 
             TestClient = appFactory.CreateClient();
         }
+
+
+        public void Dispose()
+        {
+            TestClient.Dispose();
+            _context.Database.EnsureDeleted();
+            ((IDisposable)_context).Dispose();
+        }
+
 
         protected async Task AuthenticateAsync()
         {

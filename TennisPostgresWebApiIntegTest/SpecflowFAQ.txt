@@ -1,0 +1,25 @@
+﻿Specflow Setup
+--------------
+Add nuget SpecFlow (3.9.8)
+Add nuget SpecRun.SpecFlow (3.9.7)
+
+Log in to SpecFlow @ https://account.specflow.org/clientactivation/welcome/Runner/F4925CED38EF4D6AB2A0C99D8724000B5BDE9650A692E0366E4491739F35F1589BC2F3AF/NotActivatedYet
+The actual URL might be different, but essentially you need to log in to SpecFlow as your MS a/c which links SpecFlow to your MS a/c.
+
+Any referenced projects need to have their dependencies json file copied into the SpecFlow folder.
+In my case I copied TennisPostgresWebApiCSharp.deps.json into .\TennisPostgresWebApiIntegTest\bin\Debug\netcoreapp3.1\SpecFlowPlusRunner\netcoreapp3.1
+
+When using an in-memory database, SpecFlow can't find the in-memory database dll.
+In my case I copied winsqlite3.dll from C:\Windows\System32 into .\TennisPostgresWebApiIntegTest\bin\Debug\netcoreapp3.1\SpecFlowPlusRunner\netcoreapp3.1
+and renamed it to e_sqlite3.dll
+
+Another issue is that the re-build process often fails after a test run with the **Test.dll being locked by the .NET Host process.
+The pid(s) of the dotnet.exe process are mentioned and can be terminated with Task Manager.  Not sure why these processes
+aren't being auto-terminated.
+
+Methods that call async methods are best being async themselves. However if this is done then all the async methods are kicked-off
+at more or less the same time. There is no waiting for the inner async methods to complete. Therefore it is impossible to
+retrieve state in a later method, as that state may not have been created (e.g. in _scenarioContext.Add()).
+I have made the test methods non-async and used 
+	var task = myobj.AsyncMethod();
+	var output = task.Result;

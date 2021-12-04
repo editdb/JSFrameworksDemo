@@ -133,6 +133,9 @@ namespace TennisMongoDB.Controllers
             player.InsertAt(2, new BsonElement("Country_id", player["CountryId"]));
             player.Remove("CountryId");
 
+            player.Remove("Country");
+            player.Remove("DobDMY");
+
             if (((string)player["Name"]).Trim().Length <= 4) {
                 return BadRequest("The Name does not have enough letters");
             }
@@ -143,7 +146,6 @@ namespace TennisMongoDB.Controllers
                     player.Remove("_id");
                     player.InsertAt(2, new BsonElement("CountryId", player["Country_id"]));
                     player.Remove("Country_id");
-
                     return player.ToJson();
                 });
 
@@ -161,6 +163,9 @@ namespace TennisMongoDB.Controllers
             player.Remove("Id");
             player.InsertAt(2, new BsonElement("Country_id", player["CountryId"]));
             player.Remove("CountryId");
+
+            player.Remove("Country");
+            player.Remove("DobDMY");
 
 
             if (id != (int) player["_id"]) {
