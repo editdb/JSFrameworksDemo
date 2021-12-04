@@ -43,7 +43,7 @@ http://localhost:5000
 |Folder |Purpose|
 | -------- | -------- |
 |**Angular** |The Angular 10 project|
-|**vuejs** |The Vue.js project|
+|**vuejs** |The Vue.js project. Client-side validation with Vuelidate. Charting with Chart.js.|
 |**reactjs** |The Reactjs project|
 |**TennisMvcClient** |The Blazor/MVC Razor project|
 |**TennisPostgresWebApiCSharp** |The C# WebApi project which accesses a Postgres database|
