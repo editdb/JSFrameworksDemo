@@ -5,10 +5,21 @@
 ---
 ### Angular 10, Vue.js, ReactJS and Blazor front-end projects are included to provide end-user access to the Postres \[[here](#Running-Angular-Vue-and-Blazor-via-WebApi-to-Postgres)\]
 ### and MongoDB data via the endpoints \[[here](#Running-Angular-Vue-and-Blazor-via-WebApi-to-MongoDB)\].
+### The Blazor project accesses data using services which themselves go through a client generated from swagger.json. This is to demonstrate the production of the json file using the Swashbuckle NuGet package and the use of openapi-generator to generate client middleware.
 ---
 ### Another Angular 10 project accesses the Postgres database via a C# GraphQL endpoint \[[here](#Running-Angular-via-GraphQL-to-Postgres)\].
 ---
 ### All configurations are available to be built and run through Docker using the supplied commands. See Docker [notes](#Docker-Notes)
+---
+
+Some Screenshots
+![List Player Rankings](https://github.com/editdb/JSFrameworksDemo/blob/main/Images/MVC-Blazor-List.png?raw=true)
+
+![Edit Player](https://github.com/editdb/JSFrameworksDemo/blob/main/Images/MVC-Blazor-Edit.png?raw=true)
+
+|![Edit Player Client Validation](https://github.com/editdb/JSFrameworksDemo/blob/main/Images/MVC-Blazor-Client-Val.png?raw=true) | ![Edit Player Server Validation](https://github.com/editdb/JSFrameworksDemo/blob/main/Images/MVC-Blazor-Server-Val.png?raw=true)|
+|-------|-------|
+
 ---
 ### Endpoints can be demonstrated by following instructions \[[here](#Demonstrating-Endpoints)\].
 ---
