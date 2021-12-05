@@ -39,10 +39,10 @@ namespace TennisMvcClient.Controllers
 
             if (Request.Method.Equals("GET")) {
                 if (sliYears.Count > 2) {
-                    sliYears[2].Selected = true;
+                    sliYears[0].Selected = true;
                 }
                 model.selectGender = "M";
-                model.selectYear = sliYears[2].Value;
+                model.selectYear = sliYears[0].Value;
             }
 
             return View(model);

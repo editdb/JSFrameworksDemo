@@ -16,7 +16,7 @@ import { getRankingsList, getYears } from './DataService';
 function RankingList() {
 
   const [gender, setGender] = React.useState('M');
-  const [year, setYear] = React.useState(2019);
+  const [year, setYear] = React.useState(2021);
   const [years, setYears] = React.useState([]);
   const [rankings, setRankings] = React.useState([]);
 
