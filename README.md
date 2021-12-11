@@ -12,7 +12,7 @@
 ### All configurations are available to be built and run through Docker using the supplied commands. See Docker [notes](#Docker-Notes)
 ---
 
-Some Screenshots - Angular: [more frameworks](https://github.com/editdb/JSFrameworksDemo/blob/main/Screenshots.md)
+### Some Screenshots - Angular: [more frameworks](https://github.com/editdb/JSFrameworksDemo/blob/main/Screenshots.md)
 ![List Player Rankings](https://github.com/editdb/JSFrameworksDemo/blob/main/Images/Angular-List.png?raw=true)
 
 ![Edit Player](https://github.com/editdb/JSFrameworksDemo/blob/main/Images/Angular-Edit.png?raw=true)
