@@ -15,9 +15,9 @@
 Some Screenshots - Angular: [more frameworks](https://github.com/editdb/JSFrameworksDemo/blob/main/Screenshots.md)
 ![List Player Rankings](https://github.com/editdb/JSFrameworksDemo/blob/main/Images/Angular-List.png?raw=true)
 
-![Edit Player](https://github.com/editdb/JSFrameworksDemo/blob/main/Images/Angular-List-Edit.png?raw=true)
+![Edit Player](https://github.com/editdb/JSFrameworksDemo/blob/main/Images/Angular-Edit.png?raw=true)
 
-|![Edit Player Client Validation](https://github.com/editdb/JSFrameworksDemo/blob/main/Images/Angular-List-Client-Val.png?raw=true) | ![Edit Player Server Validation](https://github.com/editdb/JSFrameworksDemo/blob/main/Images/Angular-List-Server-Val.png?raw=true)|
+|![Edit Player Client Validation](https://github.com/editdb/JSFrameworksDemo/blob/main/Images/Angular-Client-Val.png?raw=true) | ![Edit Player Server Validation](https://github.com/editdb/JSFrameworksDemo/blob/main/Images/Angular-Server-Val.png?raw=true)|
 |-------|-------|
 ---
 ### Endpoints can be demonstrated by following instructions \[[here](#Demonstrating-Endpoints)\].
